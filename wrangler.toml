@@ -1,0 +1,14 @@
+# Faísca: configuração do projeto Pages "alexandrehenrique" (alexandreh.com), publicado pelo GitHub.
+# Com `pages_build_output_dir` este arquivo passa a mandar nos bindings (KV e R2) do projeto.
+# Segredos (SESSAO_SEGREDO, WEBHOOK_NUVPAG_SEGREDO, EMAIL_REMETENTE...) ficam na Cloudflare (`wrangler pages secret put`), nunca aqui.
+name = "alexandrehenrique"
+pages_build_output_dir = "."
+compatibility_date = "2026-07-15"
+
+[[kv_namespaces]]
+binding = "FAISCA"
+id = "d6c281a8c4804ddd849c3ba700b3f431"
+
+[[r2_buckets]]
+binding = "ZIPS"
+bucket_name = "faisca-skills"

@@ -143,3 +143,37 @@ body::before { background: url("assets/fundo-quente.webp") center / cover no-rep
 .faq details { background: var(--xd-vidro-forte); box-shadow: var(--xd-brilho-topo); }
 .faq details[open] { border-color: var(--xd-marca); }
 .faq summary { min-height: 56px; }
+
+/* ── 5 skills grátis, entrada e janela do formulário ── */
+.cartoes-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cartoes-5 > :last-child { grid-column: 1 / -1; }
+@media (min-width: 40rem) { .cartoes-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cartoes-5 > :last-child { grid-column: auto; } .cartoes-5 > :nth-child(4), .cartoes-5 > :nth-child(5) { grid-column: span 1; } }
+@media (min-width: 64rem) { .cartoes-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.nav-entrar { min-height: 44px; padding: 0 1rem; }
+@media (min-width: 64rem) { .nav-entrar { display: none; } }
+@media (max-width: 29.99rem) { .nav-entrar { padding: 0 .75rem; } }
+.preco { display: flex; align-items: baseline; gap: .5rem; }
+.preco b { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); font-weight: 500; letter-spacing: -.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.preco small { color: var(--xd-texto-2); font-size: .8125rem; }
+
+.janela { width: min(100% - 1.5rem, 28rem); max-height: calc(100svh - 1.5rem); padding: 0; border: 1px solid var(--xd-borda-forte); border-radius: var(--xd-raio); color: var(--xd-texto); background: var(--xd-vidro-forte); box-shadow: 0 40px 80px -30px rgba(80, 30, 5, .55); overflow: auto; overscroll-behavior: contain; }
+.janela::backdrop { background: rgba(40, 18, 8, .55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.janela form { position: relative; display: grid; gap: .9rem; padding: clamp(1.1rem, .8rem + 1.4vw, 1.75rem); }
+.jb-etapa { display: grid; gap: .8rem; justify-items: start; }
+.jb-etapa[hidden] { display: none; }
+.jb-etapa h2 { font-size: clamp(1.375rem, 1.1rem + 1vw, 1.75rem); padding-right: 2.5rem; overflow-wrap: anywhere; }
+.jb-etapa .sub { margin-top: 0; }
+.jb-x { position: absolute; top: .6rem; right: .6rem; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; border: 1px solid var(--xd-borda-forte); background: var(--xd-vidro-sutil); color: var(--xd-texto); font-size: 1.5rem; line-height: 1; z-index: 1; }
+.campo-jb { display: grid; gap: .3rem; width: 100%; }
+.campo-jb span { font-size: .8125rem; font-weight: 500; color: var(--xd-texto-2); padding-left: .9rem; }
+.campo-jb input { width: 100%; min-height: 48px; padding: .5rem 1.1rem; font: inherit; font-size: 1rem; color: var(--xd-texto); background: #fff; border: 1px solid var(--xd-borda-forte); border-radius: 999px; }
+.campo-jb input:focus-visible { outline: 2px solid var(--xd-acao); outline-offset: 1px; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.aceite { display: flex; align-items: flex-start; gap: .6rem; font-size: .875rem; color: var(--xd-texto-2); line-height: 1.4; }
+.aceite input { width: 1.4rem; height: 1.4rem; margin: .1rem 0 0; flex: none; accent-color: var(--xd-acao); }
+.aceite a { color: var(--xd-marca); }
+.turnstile { min-height: 0; width: 100%; }
+.erro { width: 100%; padding: .65rem .9rem; border-radius: var(--xd-raio-sm); border: 1px solid #9c2a12; background: #fdece6; color: #7a1f0c; font-size: .875rem; line-height: 1.4; }
+.erro[hidden] { display: none; }
+.jb-enviar, .jb-de-novo { width: 100%; }
+.janela code { overflow-wrap: anywhere; }
