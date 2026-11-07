@@ -154,3 +154,9 @@ html:has(.ap-body) { overscroll-behavior: none; }
   .apps-janela[open] { animation: none; }
   .ap-mini, .ap-item .ap-ic, .ap-abrir, .apps__todas { transition: none; }
 }
+
+/* Telas em pé do aplicativo: fileira como na loja, com ímã; só ela rola, a página não */
+.ap-rail { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding-bottom: 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.ap-rail::-webkit-scrollbar { display: none; }
+.ap-rail img { flex: none; width: clamp(9.5rem, 46vw, 12.5rem); height: auto; aspect-ratio: 600 / 1304; border-radius: 22px; border: 1px solid var(--ap-linha); scroll-snap-align: start; background: var(--ap-cartao); }
+.ap-rail:focus-visible { outline: 2px solid #4da3ff; outline-offset: 4px; border-radius: 12px; }

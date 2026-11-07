@@ -318,6 +318,21 @@ body {
   .link { min-height: 96px; }
   .footer { align-items: flex-start; margin-top: 22px; }
 }
+/* Computador: sem a foto. O vídeo do YouTube ocupa a metade esquerda (sobre o fundo borrado) e o conteúdo fica na direita. */
+@media (min-width: 64rem) {
+  .hero__img, .hero__fade { display: none; }
+  .page-bg { display: block; position: fixed; inset: -10% 50% -10% -10%; opacity: .5; }
+  .video-wrap {
+    position: fixed;
+    z-index: 2;
+    inset-block: 0;
+    left: 3vw;
+    margin-block: auto;
+    width: min(44vw, calc((100svh - 6rem) * 16 / 9));
+    height: auto;
+  }
+  .video-wrap:hover { transform: none; }
+}
 @media (min-width: 64rem) and (max-height: 1000px) {
   .name { font-size: 40px; line-height: 46px; }
   .link { min-height: 78px; padding-block: 10px; }

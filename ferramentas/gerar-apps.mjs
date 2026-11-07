@@ -35,7 +35,7 @@ export const apps = [
     texto: 'Ferramentas de PDF e imagem sem cadastro. Os arquivos não saem do celular ou do computador: ninguém vê, nem a VisionX.',
     pontos: ['Comprimir, juntar, assinar e converter', 'Sem cadastro e grátis', 'O arquivo não sai do seu aparelho'] },
   { slug: 'biblia', nome: 'Bíblia Sagrada: Dia e Noite', sub: 'Rituais de manhã e de noite', setor: 'Leitura e rotina', plat: 'iPhone', oferta: 'Grátis', emBreve: true,
-    url: null, site: null, icone: 'biblia.webp', cap: null,
+    url: null, site: null, icone: 'biblia.webp', cap: null, caps: [1,2,3,4,5,6,7,8].map((n) => `biblia-${n}.webp`),
     texto: 'Aplicativo de iPhone, gratuito, com a leitura da Bíblia organizada em rituais de manhã e de noite. Aguardando aprovação da Apple.',
     pontos: ['Para iPhone', 'Grátis', 'Rituais de manhã e de noite'] },
   { slug: 'seuplantao', nome: 'Seu Plantão', sub: 'Agenda e faturamento para plantonistas', setor: 'Saúde', plat: 'Celular (instala)', oferta: 'Grátis',
@@ -82,10 +82,11 @@ function pagina(a) {
     : `<span class="ap-abrir ap-abrir--off" aria-disabled="true">Em breve</span>`;
   const chips = [['Setor', a.setor], ['Plataforma', a.plat], ['Oferta', a.oferta]]
     .map(([k, v]) => `<div class="ap-chip"><small>${k}</small><strong>${esc(v)}</strong></div>`).join('');
-  const cap = a.cap ? `<section class="ap-sec"><h2>Pré-visualização</h2><img class="ap-cap" src="/assets/apps/${a.cap}" alt="Tela do ${esc(a.nome)}" width="1200" height="750" loading="lazy" decoding="async"></section>` : '';
+  const rail = a.caps ? `<section class="ap-sec"><h2>Pré-visualização</h2><div class="ap-rail" tabindex="0" aria-label="Telas do ${esc(a.nome)}">${a.caps.map((c, i) => `<img src="/assets/apps/${c}" alt="Tela ${i + 1} do ${esc(a.nome)}" width="600" height="1304" loading="lazy" decoding="async">`).join('')}</div></section>` : '';
+  const cap = a.caps ? rail : a.cap ? `<section class="ap-sec"><h2>Pré-visualização</h2><img class="ap-cap" src="/assets/apps/${a.cap}" alt="Tela do ${esc(a.nome)}" width="1200" height="750" loading="lazy" decoding="async"></section>` : '';
   const info = [['Vendedor', 'VisionX'], ['Categoria', a.setor], ['Plataforma', a.plat], a.site ? ['Site', a.site] : ['Situação', 'Aguardando aprovação da Apple']]
     .map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
-  return `${head(`${a.nome} — ${a.sub}`, a.texto, `/apps/${a.slug}/`, `/assets/apps/${a.cap || a.icone}`)}
+  return `${head(`${a.nome} — ${a.sub}`, a.texto, `/apps/${a.slug}/`, `/assets/apps/${a.cap || (a.caps && a.caps[0]) || a.icone}`)}
 <body class="ap-body">
 <main class="ap">
   <a class="ap-voltar" href="/" aria-label="Voltar ao início"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Início</span></a>
