@@ -119,6 +119,7 @@ code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .9em; 
 .curto { display: none; }
 .lateral-pe { padding: .6rem .75rem .75rem; display: grid; gap: .35rem; border-top: 1px solid var(--xd-borda); }
 .item-pe { display: flex; align-items: center; gap: .7rem; min-height: 44px; padding: 0 .8rem; background: transparent; border: 0; border-radius: 999px; color: var(--xd-texto-2); font-weight: 500; font-size: .875rem; text-align: left; transition: background-color 160ms ease, transform 140ms ease; }
+a.item-pe { text-decoration: none; }
 .item-pe:active { transform: scale(.98); }
 .item-pe b { font-weight: 600; color: var(--xd-texto); }
 @media (hover: hover) and (pointer: fine) { .item-pe:hover { background: var(--xd-vidro-hover); color: var(--xd-texto); } }

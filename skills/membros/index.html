@@ -12,7 +12,7 @@
 <link rel="preload" href="fonts/poppins-500-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/laranja/hero.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="fonts/fontes.css?v=d5dfaa51">
-<link rel="stylesheet" href="area.css?v=84a74f09">
+<link rel="stylesheet" href="area.css?v=951ae7ea">
 <script>
   /* tema e barra lateral antes da pintura, para não piscar */
   try {
@@ -43,6 +43,7 @@
     <symbol id="i-copiar" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5v-2a2 2 0 00-2-2h-7a2 2 0 00-2 2v7a2 2 0 002 2h2"/></symbol>
     <symbol id="i-tema" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 010 16z" fill="currentColor"/></symbol>
     <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 6H6.5A2.5 2.5 0 004 8.5v9A2.5 2.5 0 006.5 20h9a2.5 2.5 0 002.5-2.5V14M14 4h6v6M20 4l-9 9"/></symbol>
+    <symbol id="i-comunidade" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c.4-3 2.6-4.8 5.5-4.8s5.1 1.8 5.5 4.8"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16 14.4c2.6-.3 4.3 1.2 4.6 3.9"/></symbol>
     <symbol id="i-ajuda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 114 2c-.9.6-1.6 1.1-1.6 2.1M12 17h.01"/></symbol>
     <symbol id="i-sair" viewBox="0 0 24 24"><path d="M10 4H6.5A1.5 1.5 0 005 5.5v13A1.5 1.5 0 006.5 20H10M15 8l4 4-4 4M19 12H9.5"/></symbol>
     <symbol id="i-aviso" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
@@ -135,6 +136,7 @@
       <a class="botao botao-acao" data-baixar-tudo href="/skills/api/membros/zip?todas=1" download aria-label="Baixar tudo" title="Baixar tudo">
         <svg class="ic"><use href="#i-baixar"/></svg><span class="rot">Baixar tudo <small data-tamanho-tudo></small></span><span class="curto">Baixar</span>
       </a>
+      <a class="item-pe" href="https://chat.whatsapp.com/IpHUMIyK1jS2JhdWhoJ6ny" target="_blank" rel="noopener" aria-label="Comunidade Dev e IA no WhatsApp" title="Comunidade Dev e IA no WhatsApp"><svg class="ic"><use href="#i-comunidade"/></svg><span class="rot">Comunidade</span><span class="curto">Grupo</span></a>
       <button type="button" class="item-pe" id="como-instalar" aria-label="Como instalar" title="Como instalar"><svg class="ic"><use href="#i-ajuda"/></svg><span class="rot">Como instalar</span><span class="curto">Ajuda</span></button>
       <button type="button" class="item-pe" id="tema" aria-label="Tema: aparelho. Tocar para trocar"><svg class="ic"><use href="#i-tema"/></svg><span class="rot">Tema: <b id="tema-nome">Aparelho</b></span><span class="curto" id="tema-curto">Tema</span></button>
       <button type="button" class="item-pe" id="sair" aria-label="Sair" title="Sair da área de membros"><svg class="ic"><use href="#i-sair"/></svg><span class="rot">Sair</span><span class="curto">Sair</span></button>
