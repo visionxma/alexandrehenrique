@@ -174,7 +174,18 @@ body::before { background: url("assets/fundo-quente.webp") center / cover no-rep
 .turnstile { min-height: 0; width: 100%; }
 .erro { width: 100%; padding: .65rem .9rem; border-radius: var(--xd-raio-sm); border: 1px solid #9c2a12; background: #fdece6; color: #7a1f0c; font-size: .875rem; line-height: 1.4; }
 .erro[hidden] { display: none; }
-.jb-enviar, .jb-de-novo { width: 100%; }
+.jb-enviar { width: 100%; }
+.jb-de-novo { color: var(--xd-marca-t); font-weight: 500; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
+.jb-oferta, .jb-comprar, .jb-agora-nao { box-sizing: border-box; min-width: 0; }
+.jb-oferta { display: grid; gap: .7rem; width: 100%; padding: 1rem; border-radius: var(--xd-raio-md); background: var(--xd-vidro-sutil); border: 1px solid var(--xd-borda-forte); }
+.jb-oferta h3 { font-size: 1.1875rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.2; }
+.jb-oferta p { font-size: .9375rem; line-height: 1.5; color: var(--xd-texto-2); }
+.jb-pontos { display: grid; gap: .4rem; }
+.jb-pontos li { display: flex; gap: .55rem; align-items: flex-start; font-size: .9375rem; font-weight: 500; line-height: 1.35; }
+.jb-pontos .ic { color: var(--xd-marca); flex: none; margin-top: .1rem; }
+.jb-comprar, .jb-agora-nao { width: 100%; }
+.jb-oferta .jb-nota { font-size: .8125rem; color: var(--xd-texto-3); text-align: center; }
+.janela { overflow-y: auto; overscroll-behavior: contain; }
 .janela code { overflow-wrap: anywhere; }
 
 /* espaço entre a oferta do painel e a grade de categorias (estavam coladas) */

@@ -83,7 +83,7 @@ test('código certo abre sessão com o cookie pedido e é de uso único', async 
   const de_novo = await codigo(ctx(post('/skills/api/membros/codigo', { email: EMAIL, codigo: j.codigoDev })));
   assert.equal(de_novo.status, 401, 'mesmo código não serve duas vezes');
   const r2 = await eu(ctx(get('/skills/api/membros/eu', cookieDe(r))));
-  assert.equal(r2.status, 200); assert.deepEqual(await r2.json(), { ok: true, email: EMAIL });
+  assert.equal(r2.status, 200); assert.deepEqual(await r2.json(), { ok: true, email: EMAIL, admin: false });
 });
 
 test('código errado conta tentativa; na 5ª o código morre, mesmo o certo depois', async () => {

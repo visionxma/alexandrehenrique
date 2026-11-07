@@ -82,7 +82,9 @@ export async function onRequestPost({ request, env }) {
   if (!i.email) return json({ ok: true, acao: 'ignorado', motivo: 'sem e-mail' });
 
   if (i.acao === 'aprovar') {
-    await gravarJSON(env.FAISCA, K.pago(i.email), { nome: i.nome, produto: i.produto, transacao: i.transacao, quando: new Date(agora).toISOString() });
+    const quando = new Date(agora).toISOString();
+    // `metadata` (cortado, bem abaixo de 1 KB) deixa o painel admin listar sem uma leitura por compra.
+    await gravarJSON(env.FAISCA, K.pago(i.email), { nome: i.nome, produto: i.produto, transacao: i.transacao, quando }, { metadata: { n: i.nome.slice(0, 60), p: i.produto.slice(0, 60), x: i.transacao.slice(0, 60), q: quando } });
     await contar(env, 'compra_aprovada');
     return json({ ok: true, acao: 'liberado' });
   }

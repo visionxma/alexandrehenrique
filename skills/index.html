@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="fonts/fontes.css?v=d5dfaa51">
 <link rel="stylesheet" href="tokens.css?v=9caabf31">
 <link rel="stylesheet" href="vendas.css?v=42253112">
-<link rel="stylesheet" href="laranja.css?v=b48876be">
+<link rel="stylesheet" href="laranja.css?v=a65e506b">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></symbol><symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="i-lua" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></symbol><symbol id="i-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></symbol><symbol id="i-chave" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="3"/><path d="M8 10V7a4 4 0 018 0v3"/></symbol><symbol id="i-livro" viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 017.5 3H19v16H7.5A2.5 2.5 0 005 21.5z"/><path d="M5 19V5.5"/></symbol><symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></symbol><symbol id="i-pasta" viewBox="0 0 24 24"><path d="M3.5 7.5A2 2 0 015.5 5.5H10l2 2.5h6.5a2 2 0 012 2V17a2 2 0 01-2 2h-13a2 2 0 01-2-2z"/></symbol><symbol id="i-raio" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol><symbol id="i-camadas" viewBox="0 0 24 24"><path d="M12 4l8 4-8 4-8-4zM4 12l8 4 8-4M4 16l8 4 8-4"/></symbol><symbol id="i-grade" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol><symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 4-6 2-10.5 5.5"/></symbol></defs></svg>
@@ -163,12 +163,20 @@
       <button class="botao botao-acao botao-grande jb-enviar" type="submit"><svg class="ic" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar agora</button>
     </div>
     <div class="jb-etapa" data-etapa="ok" hidden>
-      <span class="sobre"><i></i>Tudo certo</span>
-      <h2>Download liberado</h2>
-      <p class="sub">O arquivo começou a baixar. Se não começou, use o botão abaixo. Depois, descompacte em <code>~/.claude/skills/</code> e reinicie o Claude Code.</p>
-      <a class="botao botao-acao botao-grande jb-de-novo" href="#" download><svg class="ic" aria-hidden="true"><use href="#i-baixar"/></svg>Baixar de novo</a>
-      <p class="sub">Gostou? As outras 374 estão no painel, nas categorias que você mais usa.</p>
-      <a class="botao botao-vidro" href="#painel" data-fechar>Conhecer o painel com 379 skills</a>
+      <span class="sobre"><i></i>Download liberado</span>
+      <h2>Suas 5 skills já estão baixando.</h2>
+      <p class="sub">Descompacte em <code>~/.claude/skills/</code> e reinicie o Claude Code. <a class="jb-de-novo" href="#" download>Não começou? Baixar de novo</a></p>
+      <div class="jb-oferta">
+        <h3>Essas 5 são só o começo.</h3>
+        <p>Chega de garimpar repositório por repositório. O painel reúne as outras 374, com origem e licença de cada uma à vista.</p>
+        <ul class="jb-pontos">
+          <li><svg class="ic" aria-hidden="true"><use href="#i-ok"/></svg><span>10 categorias: design, código, nuvem, vídeo, SEO e mais</span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-ok"/></svg><span>Paga uma vez, é seu para sempre: cerca de 5 centavos por skill</span></li>
+        </ul>
+        <a class="botao botao-acao botao-grande jb-comprar" href="https://app.nuvpag.com/c/faisca-painel-com-379-skills-para-o-clau-fc5586">Quero as outras 374 · R$ 19,90</a>
+        <p class="jb-nota">Pix, com acesso liberado assim que confirma.</p>
+      </div>
+      <button type="button" class="botao botao-vidro jb-agora-nao" data-fechar>Agora não, obrigado</button>
     </div>
   </form>
 </dialog>

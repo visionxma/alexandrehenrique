@@ -71,8 +71,8 @@ code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .9em; 
 .topo-in { width: min(100% - 1.5rem, 78rem); margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "marca acoes" "nav nav"; align-items: center; column-gap: .5rem; padding-top: .35rem; }
 .topo .marca { grid-area: marca; }
 .topo-acoes { grid-area: acoes; display: flex; align-items: center; gap: .25rem; }
-.topo-nav { grid-area: nav; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; padding: .15rem 0 .6rem; }
-.topo-nav a { display: grid; place-items: center; min-height: 44px; padding: 0 .75rem; border-radius: 999px; border: 1px solid transparent; text-decoration: none; font-weight: 500; font-size: .875rem; color: var(--xd-texto-2); white-space: nowrap; transition: background-color 160ms ease, color 160ms ease, transform 140ms ease; }
+.topo-nav { grid-area: nav; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .3rem; padding: .15rem 0 .6rem; }
+.topo-nav a { display: grid; place-items: center; min-height: 44px; padding: 0 .4rem; border-radius: 999px; border: 1px solid transparent; text-decoration: none; font-weight: 500; font-size: .875rem; color: var(--xd-texto-2); white-space: nowrap; transition: background-color 160ms ease, color 160ms ease, transform 140ms ease; }
 .topo-nav a:active { transform: scale(.98); }
 .topo-nav a[aria-current="page"] { background: var(--xd-vidro-claro); color: var(--xd-texto); box-shadow: var(--xd-brilho-topo), inset 0 0 0 1px var(--xd-borda-forte); }
 @media (hover: hover) and (pointer: fine) { .topo-nav a:hover { background: var(--xd-vidro-hover); color: var(--xd-texto); } }
@@ -283,13 +283,26 @@ dialog h2 { font-size: 1.375rem; font-weight: 500; letter-spacing: -.02em; paddi
 .mais-caixa { display: grid; justify-items: center; padding: 1rem 0 .5rem; }
 .mais-caixa .botao { min-width: min(100%, 18rem); }
 
+/* ── admin: leads e compradores ─────────────────────────────────────────── */
+.admin { display: grid; gap: 1rem; padding-bottom: 1.5rem; }
+.adm-funil { font-size: .875rem; line-height: 1.5; color: var(--xd-texto-2); max-width: 70ch; }
+.adm-bloco h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem .6rem; font-size: 1.1875rem; font-weight: 500; letter-spacing: -.015em; }
+.adm-bloco h2 small { font-size: .8125rem; font-weight: 400; color: var(--xd-texto-2); letter-spacing: 0; }
+.adm-nome { font-weight: 500; }
+.adm-linha .l-baixar { padding: 0 1rem; white-space: nowrap; }
+.adm-vazio { grid-template-columns: minmax(0, 1fr); grid-template-areas: "desc"; }
+@media (min-width: 48rem) {
+  .adm-linha { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr) auto; grid-template-areas: "nome desc meta baixar"; gap: .75rem 1rem; }
+  .adm-linha .l-meta { margin-top: 0; }
+}
+
 /* ── movimento: só transform e opacity (e um desfoque curto na troca de tela) ── */
 @keyframes xd-entrar { from { opacity: 0; filter: blur(6px); } to { opacity: 1; filter: blur(0); } }
 @keyframes xd-entrar-leve { from { opacity: 0; } to { opacity: 1; } }
 @keyframes xd-subir { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: no-preference) {
   .miolo.troca { animation: xd-entrar var(--xd-dur) var(--xd-curva) both; }
-  .troca .cab, .troca .resumo li, .troca .filtros, .troca .capa, .troca .vazio, .troca .quadro > li, .troca .comunidade, .troca .modulos-cab, .troca .modulos > li { animation: xd-subir 420ms var(--xd-curva) both; animation-delay: calc(var(--i, 0) * 60ms); }
+  .troca .cab, .troca .resumo li, .troca .filtros, .troca .capa, .troca .vazio, .troca .quadro > li, .troca .comunidade, .troca .modulos-cab, .troca .modulos > li, .troca .adm-bloco { animation: xd-subir 420ms var(--xd-curva) both; animation-delay: calc(var(--i, 0) * 60ms); }
   .troca .resumo li:nth-child(1) { --i: 1; } .troca .resumo li:nth-child(2) { --i: 2; } .troca .resumo li:nth-child(3) { --i: 3; }
   .troca .filtros { --i: 2; } .troca .capa { --i: 3; } .troca .vazio { --i: 3; }
   .troca .comunidade { --i: 2; } .troca .modulos-cab { --i: 3; } .troca .modulos > li:nth-child(odd) { --i: 4; } .troca .modulos > li:nth-child(even) { --i: 5; }

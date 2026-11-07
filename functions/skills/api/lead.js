@@ -91,7 +91,8 @@ export async function onRequestPost({ request, env }) {
   if (!leadId || !(await lerJSON(env.FAISCA, K.lead(leadId)))) {
     leadId = crypto.randomUUID();
     const lead = { nome: n.nome, telefone: t.telefone, skill, quando: new Date().toISOString(), ipHash, ua: String(request.headers.get('user-agent') || '').slice(0, 200) };
-    await gravarJSON(env.FAISCA, K.lead(leadId), lead);
+    // `metadata` (cortado, bem abaixo de 1 KB) deixa o painel admin listar sem uma leitura por lead.
+    await gravarJSON(env.FAISCA, K.lead(leadId), lead, { metadata: { n: n.nome.slice(0, 60), t: t.telefone, s: skill, q: lead.quando } });
     await env.FAISCA.put(K.tel(telHash), leadId);
   }
 

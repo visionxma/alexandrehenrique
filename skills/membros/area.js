@@ -8,6 +8,7 @@
   const estado = { cat: 'inicio', q: '', lic: 'todas', orig: 'todas', sel: null, limite: PAGINA };
   let D = null, porId = new Map(), porCat = new Map();
   let focoAntes = null;
+  let souAdmin = false;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const norm = (s) => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -54,9 +55,10 @@
     if (tipo === 'categoria' && porCat.has(v)) { estado.cat = v; estado.sel = null; }
     else if (tipo === 'skill' && porId.has(v)) { estado.sel = v; const c = porId.get(v).categoria; if (inicial || (estado.cat !== 'todas' && estado.cat !== c)) estado.cat = c; }
     else if (tipo === 'skills') { estado.cat = 'todas'; estado.sel = null; }
+    else if (tipo === 'admin' && souAdmin) { estado.cat = 'admin'; estado.sel = null; }
     else { estado.cat = 'inicio'; estado.sel = null; }
   }
-  const hashAtual = () => (estado.cat === 'inicio' ? '#/' : estado.cat === 'todas' ? '#/skills' : `#/categoria/${estado.cat}`);
+  const hashAtual = () => (estado.cat === 'inicio' ? '#/' : estado.cat === 'todas' ? '#/skills' : estado.cat === 'admin' ? '#/admin' : `#/categoria/${estado.cat}`);
 
   /* troca de tela: o conteúdo entra com desfoque e os itens sobem a cada 60 ms (só visual) */
   let tTroca;
@@ -73,6 +75,66 @@
       <span class="mod-capa"><img src="assets/laranja/p/${esc(c.slug)}.webp" alt="" width="640" height="361" loading="lazy" decoding="async"><span class="mod-ic"><svg class="ic"><use href="#i-${esc(c.slug)}"/></svg></span></span>
       <span class="mod-nome">${esc(c.nome)}</span>
       <span class="mod-n">${c.total} ${c.total === 1 ? 'skill' : 'skills'}</span></a></li>`).join('');
+  }
+
+  /* ---------- admin: leads com botão de WhatsApp e lista de quem comprou (só o e-mail admin) ---------- */
+  const soDigitos = (t) => String(t || '').replace(/\D/g, '');
+  function foneBonito(t) {
+    let d = soDigitos(t); if (d.startsWith('55') && d.length > 11) d = d.slice(2);
+    if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    return t || '';
+  }
+  function quando(iso) {
+    const d = new Date(iso); if (isNaN(d)) return '';
+    const min = Math.round((Date.now() - d.getTime()) / 60000);
+    const curto = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    if (min < 1) return 'agora';
+    if (min < 60) return `há ${min} min`;
+    if (min < 1440) return `há ${Math.floor(min / 60)} h`;
+    return curto;
+  }
+  const zapLead = (l) => {
+    const nome = String(l.nome || '').trim().split(/\s+/)[0] || '';
+    const resto = D ? D.skills.length - 5 : 374;
+    const msg = `Oi${nome ? ', ' + nome : ''}. Você baixou as 5 skills da Faísca. Já testou a systematic-debugging? Se o Claude Code te ajudou, no painel tem as outras ${resto}, nas categorias que você mais usa: https://alexandreh.com/skills/#painel`;
+    return `https://wa.me/${soDigitos(l.telefone)}?text=${encodeURIComponent(msg)}`;
+  };
+  const vazioAdm = (t) => `<li class="linha adm-vazio"><p class="l-desc">${esc(t)}</p></li>`;
+  /* o funil vem em outra chamada: cada chamada tem o seu orçamento de leituras no servidor */
+  async function carregarFunil() {
+    try {
+      const r = await fetch(`${API}/admin?parte=funil`, { credentials: 'same-origin', cache: 'no-store' });
+      const a = await r.json().catch(() => ({})); const f = (a && a.funil) || null;
+      if (!r.ok || !f) { $('#adm-funil').textContent = 'Funil indisponível agora.'; return; }
+      $('#adm-n-visitas').textContent = f.visita || 0;
+      $('#adm-funil').textContent = `Funil dos últimos ${f.dias || 7} dias: ${f.visita || 0} visitas, ${f.abre_baixar || 0} abriram o download, ${f.baixou_gratis || 0} baixaram, ${f.clique_painel || 0} olharam o painel, ${f.clique_comprar || 0} clicaram em comprar, ${f.compra_aprovada || 0} compraram.`;
+    } catch (x) { $('#adm-funil').textContent = 'Funil indisponível agora.'; }
+  }
+  let admCarregou = 0;
+  async function carregarAdmin() {
+    if (Date.now() - admCarregou < 15000) return; /* volta à aba sem refazer a busca */
+    $('#adm-leads').innerHTML = vazioAdm('Carregando…'); $('#adm-compras').innerHTML = vazioAdm('Carregando…');
+    try {
+      const r = await fetch(`${API}/admin`, { credentials: 'same-origin', cache: 'no-store' });
+      const a = await r.json().catch(() => ({}));
+      if (!r.ok || !a.ok) { const m = r.status === 403 ? 'Acesso restrito.' : 'Não foi possível carregar agora. Atualize a página.'; $('#adm-leads').innerHTML = vazioAdm(m); $('#adm-compras').innerHTML = vazioAdm(m); return; }
+      admCarregou = Date.now();
+      $('#adm-n-leads').textContent = a.totais.leads; $('#adm-n-compras').textContent = a.totais.compras;
+      carregarFunil();
+      $('#adm-leads').innerHTML = a.leads.length ? a.leads.map((l) => `<li class="linha adm-linha">
+        <span class="l-nome adm-nome">${esc(l.nome || 'Sem nome')}</span>
+        <p class="l-desc">${esc(foneBonito(l.telefone))}</p>
+        <div class="l-meta"><span class="chip">${esc(l.skill === 'todas' ? 'As 5 grátis' : l.skill)}</span><span class="l-orig" title="${esc(l.quando)}">${esc(quando(l.quando))}</span></div>
+        ${soDigitos(l.telefone) ? `<a class="botao botao-acao l-baixar" href="${esc(zapLead(l))}" target="_blank" rel="noopener" aria-label="Chamar ${esc(l.nome || 'o lead')} no WhatsApp"><svg class="ic"><use href="#i-whats"/></svg><span>WhatsApp</span></a>` : '<span class="chip l-baixar" title="Cadastro antigo, sem os dados na lista">Incompleto</span>'}
+      </li>`).join('') : vazioAdm('Ninguém baixou as grátis ainda.');
+      $('#adm-compras').innerHTML = a.compras.length ? a.compras.map((c) => `<li class="linha adm-linha">
+        <span class="l-nome adm-nome">${esc(c.nome || 'Sem nome')}</span>
+        <p class="l-desc">${esc(c.email)}</p>
+        <div class="l-meta"><span class="chip">${esc(c.produto || 'Painel Faísca')}</span><span class="l-orig" title="${esc(c.quando)}">${esc(quando(c.quando))}</span></div>
+        <a class="botao botao-vidro l-baixar" href="mailto:${esc(c.email)}" aria-label="Escrever para ${esc(c.nome || c.email)}"><svg class="ic"><use href="#i-link"/></svg><span>E-mail</span></a>
+      </li>`).join('') : vazioAdm('Nenhuma compra ainda.');
+    } catch (x) { $('#adm-leads').innerHTML = vazioAdm('Sem conexão. Tente de novo.'); $('#adm-compras').innerHTML = vazioAdm('Sem conexão. Tente de novo.'); }
   }
 
   /* ---------- filtros ---------- */
@@ -98,21 +160,23 @@
   function renderTudo() {
     const cat = porCat.get(estado.cat);
     const inicio = estado.cat === 'inicio';
-    const titulo = inicio ? 'Início' : cat ? cat.nome : 'Todas as skills';
+    const admin = estado.cat === 'admin';
+    const titulo = inicio ? 'Início' : admin ? 'Admin' : cat ? cat.nome : 'Todas as skills';
     $('#titulo').textContent = titulo;
     document.title = `${titulo} | Faísca`;
     trocaDeTela();
     /* acima do título: "Faísca" no início; nas outras telas, o caminho de volta */
     $('#cab-sobre').innerHTML = inicio ? 'Faísca' : '<a class="voltar" href="#/"><svg class="ic"><use href="#i-voltar"/></svg>Início</a>';
-    $('#teto').textContent = inicio ? 'Entre na comunidade e escolha um módulo de skills para ver e baixar.' : cat ? cat.texto : `Biblioteca com ${D.skills.length} skills para o Claude Code, em ${D.categorias.length} categorias. Baixe uma por uma ou tudo de uma vez.`;
+    $('#teto').textContent = inicio ? 'Entre na comunidade e escolha um módulo de skills para ver e baixar.' : cat ? cat.texto : admin ? 'Leads e compradores da Faísca. Só você vê esta tela.' : `Biblioteca com ${D.skills.length} skills para o Claude Code, em ${D.categorias.length} categorias. Baixe uma por uma ou tudo de uma vez.`;
     const bc = $('#baixar-cat'); bc.hidden = !cat;
     if (cat) { bc.href = zipCat(cat.slug); $('span', bc).textContent = `Baixar esta categoria (${bytes(cat.bytes_zip)})`; }
-    $('#inicio').hidden = !inicio;
+    $('#inicio').hidden = !inicio; $('#admin').hidden = !admin;
     $('#resumo').hidden = estado.cat !== 'todas';
-    $('#filtros').hidden = inicio; $('#lista').hidden = inicio;
+    $('#filtros').hidden = inicio || admin; $('#lista').hidden = inicio || admin;
     estado.limite = PAGINA;
     $$('#topo-nav a').forEach((a) => { const atual = a.dataset.cat === estado.cat; a.toggleAttribute('aria-current', atual); if (atual) a.setAttribute('aria-current', 'page'); });
-    if (!inicio) renderLista(); else renderSelecao();
+    if (admin) carregarAdmin();
+    if (!inicio && !admin) renderLista(); else renderSelecao();
   }
 
   function linha(s) {
@@ -346,8 +410,9 @@
   });
 
   /* entra no painel: só agora o catálogo é buscado */
-  function abrirPainelDeMembros(email) {
+  function abrirPainelDeMembros(email, admin) {
     acesso.hidden = true; $('#app').hidden = false;
+    souAdmin = !!admin; $('#nav-admin').hidden = !souAdmin;
     $('#sair').title = email ? `Sair (${email})` : 'Sair da área de membros';
     if (!painelIniciado) { painelIniciado = true; carregarCatalogo(); }
     $('#conteudo').focus({ preventScroll: true });
@@ -355,7 +420,7 @@
   async function verificarSessao() {
     try {
       const r = await fetch(`${API}/eu`, { credentials: 'same-origin', cache: 'no-store' });
-      if (r.ok) { const j = await lerJson(r); if (j.email) { abrirPainelDeMembros(j.email); return true; } } /* 200 sem e-mail também vale como "sem sessão" */
+      if (r.ok) { const j = await lerJson(r); if (j.email) { abrirPainelDeMembros(j.email, j.admin); return true; } } /* 200 sem e-mail também vale como "sem sessão" */
       mostrarAcesso();
     } catch (x) { mostrarAcesso(); erro(1, MSG_REDE); }
     return false;

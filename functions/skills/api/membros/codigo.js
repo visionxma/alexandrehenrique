@@ -4,6 +4,7 @@ import { json, erro, MSG, lerJson, mesmaOrigem } from '../../_lib/resposta.js';
 import { normalizarEmail } from '../../_lib/validacao.js';
 import { iguais, criarSessao, cookieSessao, hashCodigo } from '../../_lib/token.js';
 import { K, lerJSON, gravarJSON, ttl } from '../../_lib/kv.js';
+import { ehAdmin } from '../../_lib/admin.js';
 
 export const MAX_TENTATIVAS = 5;
 const INVALIDO = 'Código inválido ou vencido. Confira ou peça um novo.';
@@ -35,6 +36,6 @@ export async function onRequestPost({ request, env }) {
   }
 
   await env.FAISCA.delete(K.otp(email)); // código de uso único
-  if ((await env.FAISCA.get(K.pago(email))) == null) return erro(INVALIDO, 401); // reembolsou no meio do caminho
+  if (!ehAdmin(email) && (await env.FAISCA.get(K.pago(email))) == null) return erro(INVALIDO, 401); // reembolsou no meio do caminho
   return json({ ok: true, email }, 200, { 'set-cookie': cookieSessao(await criarSessao(email, env.SESSAO_SEGREDO)) });
 }

@@ -7,6 +7,7 @@ import { codigoSeisDigitos, hashComChave, hashCodigo } from '../../_lib/token.js
 import { K, gravarJSON } from '../../_lib/kv.js';
 import { contar } from '../../_lib/limite.js';
 import { enviarCodigo } from '../../_lib/email.js';
+import { ehAdmin } from '../../_lib/admin.js';
 
 export const VALIDADE_OTP_S = 10 * 60;
 export const MENSAGEM = 'Se este e-mail tiver uma compra aprovada, enviamos um código de 6 dígitos. Ele vale por 10 minutos.';
@@ -24,7 +25,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (!porIp.ok || !porEmail.ok) return erro(MSG.muitos, 429);
 
   const resposta = { ok: true, msg: MENSAGEM };
-  if ((await env.FAISCA.get(K.pago(email))) == null) return json(resposta);
+  // Admin recebe código mesmo sem compra; a resposta continua igual para todo mundo.
+  if (!ehAdmin(email) && (await env.FAISCA.get(K.pago(email))) == null) return json(resposta);
 
   const codigo = codigoSeisDigitos();
   await gravarJSON(env.FAISCA, K.otp(email), { hash: await hashCodigo(email, codigo, env.SESSAO_SEGREDO), tentativas: 0, exp: Date.now() + VALIDADE_OTP_S * 1000 }, { expirationTtl: VALIDADE_OTP_S });

@@ -12,7 +12,7 @@
 <link rel="preload" href="fonts/poppins-500-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/laranja/hero.webp" as="image" type="image/webp">
 <link rel="stylesheet" href="fonts/fontes.css?v=d5dfaa51">
-<link rel="stylesheet" href="area.css?v=69e5dc1d">
+<link rel="stylesheet" href="area.css?v=4ca691e6">
 </head>
 <body>
 
@@ -37,6 +37,7 @@
     <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 6H6.5A2.5 2.5 0 004 8.5v9A2.5 2.5 0 006.5 20h9a2.5 2.5 0 002.5-2.5V14M14 4h6v6M20 4l-9 9"/></symbol>
     <symbol id="i-comunidade" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c.4-3 2.6-4.8 5.5-4.8s5.1 1.8 5.5 4.8"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16 14.4c2.6-.3 4.3 1.2 4.6 3.9"/></symbol>
     <symbol id="i-voltar" viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></symbol>
+    <symbol id="i-whats" viewBox="0 0 24 24"><path d="M20 12a8 8 0 01-11.6 7.1L4 20l1-4.2A8 8 0 1120 12z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-.9-.8.6a4 4 0 01-1.6-1.6l.6-.8-.9-1.8z"/></symbol>
     <symbol id="i-ajuda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 114 2c-.9.6-1.6 1.1-1.6 2.1M12 17h.01"/></symbol>
     <symbol id="i-sair" viewBox="0 0 24 24"><path d="M10 4H6.5A1.5 1.5 0 005 5.5v13A1.5 1.5 0 006.5 20H10M15 8l4 4-4 4M19 12H9.5"/></symbol>
     <symbol id="i-aviso" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
@@ -112,6 +113,7 @@
       <nav class="topo-nav" id="topo-nav" aria-label="Seções">
         <a href="#/" data-cat="inicio">Início</a>
         <a href="#/skills" data-cat="todas">Todas as skills</a>
+        <a href="#/admin" data-cat="admin" id="nav-admin" hidden>Admin</a>
       </nav>
       <div class="topo-acoes">
         <button type="button" class="icone" id="como-instalar" aria-label="Como instalar" title="Como instalar"><svg class="ic"><use href="#i-ajuda"/></svg></button>
@@ -147,6 +149,23 @@
         </div>
         <div class="modulos-cab"><h2>Módulos de skills</h2><p>Escolha um módulo para ver e baixar as skills dele.</p></div>
         <ul class="modulos" id="modulos"></ul>
+      </section>
+
+      <section class="admin" id="admin" hidden aria-label="Painel admin">
+        <ul class="resumo adm-resumo" aria-label="Números da Faísca">
+          <li><svg class="ic kpi-ic"><use href="#i-comunidade"/></svg><div><b id="adm-n-leads">0</b><span>leads</span></div></li>
+          <li><svg class="ic kpi-ic"><use href="#i-baixar"/></svg><div><b id="adm-n-compras">0</b><span>compraram</span></div></li>
+          <li><svg class="ic kpi-ic"><use href="#i-k-skills"/></svg><div><b id="adm-n-visitas">0</b><span>visitas em 7 dias</span></div></li>
+        </ul>
+        <p class="adm-funil" id="adm-funil" aria-live="polite"></p>
+        <div class="adm-bloco">
+          <h2>Leads <small>baixaram as 5 grátis</small></h2>
+          <ul class="quadro" id="adm-leads"></ul>
+        </div>
+        <div class="adm-bloco">
+          <h2>Compradores <small>pagaram o painel</small></h2>
+          <ul class="quadro" id="adm-compras"></ul>
+        </div>
       </section>
 
       <ul class="resumo" id="resumo" aria-label="Resumo da biblioteca" hidden>
@@ -202,6 +221,6 @@
 
 <noscript><p class="sem-js">A área de membros precisa de JavaScript para entrar e listar as skills. Ative o JavaScript do navegador e atualize a página.</p></noscript>
 
-<script src="area.js?v=0b4c98ef" defer></script>
+<script src="area.js?v=8d382038" defer></script>
 </body>
 </html>

@@ -21,15 +21,17 @@ export class KVFalso {
     if (typeof v !== 'string') throw new Error('KVFalso: guarde texto');
     if (op.expirationTtl != null && op.expirationTtl < 60) throw new Error(`KV real recusa expirationTtl < 60 (veio ${op.expirationTtl})`);
     const exp = op.expirationTtl ? Date.now() + op.expirationTtl * 1000 : op.expiration ? op.expiration * 1000 : 0;
-    this.m.set(k, { v, exp, ttl: op.expirationTtl });
+    if (op.metadata !== undefined && new TextEncoder().encode(JSON.stringify(op.metadata)).length > 1024) throw new Error('KVFalso: metadata acima de 1024 bytes (o KV real recusa)');
+    this.m.set(k, { v, exp, ttl: op.expirationTtl, metadata: op.metadata ?? null });
   }
   async delete(k) { this.m.delete(k); }
   async list({ prefix = '' } = {}) {
-    const keys = [...this.m.keys()].filter((k) => k.startsWith(prefix) && this._vivo(k)).map((name) => ({ name }));
+    const keys = [...this.m.keys()].filter((k) => k.startsWith(prefix) && this._vivo(k)).map((name) => ({ name, metadata: this.m.get(name).metadata }));
     return { keys, list_complete: true };
   }
   chaves(prefixo = '') { return [...this.m.keys()].filter((k) => k.startsWith(prefixo) && this._vivo(k)); }
   ttlDe(k) { return this.m.get(k)?.ttl; }
+  metadataDe(k) { return this.m.get(k)?.metadata; }
 }
 
 export class R2Falso {
