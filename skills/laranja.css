@@ -185,3 +185,32 @@ body::before { background: url("assets/fundo-quente.webp") center / cover no-rep
 .cats { margin-top: .75rem; }
 
 .botao { font-family: inherit; cursor: pointer; }
+
+/* ── as 5 grátis: carrossel no celular e no tablet, as 5 lado a lado no computador ── */
+@media (max-width: 63.99rem) {
+  .cartoes-5 { display: flex; grid-template-columns: none; gap: .75rem; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 1rem; margin-inline: -1rem; padding: .25rem 1rem 1.1rem; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .cartoes-5::-webkit-scrollbar { display: none; }
+  .cartoes-5 > li, .cartoes-5 > :last-child, .cartoes-5 > :nth-child(4), .cartoes-5 > :nth-child(5) { flex: 0 0 min(76%, 17.5rem); grid-column: auto; scroll-snap-align: start; }
+  .cartoes-5 .skill-corpo p { display: block; }
+}
+@media (min-width: 64rem) {
+  .cartoes-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding: 0; }
+  .cartoes-5 > li { flex: none; }
+}
+.cartoes-5 .skill-card { height: 100%; }
+
+/* ── card "Painel Faísca": laranja vivo, texto branco, com espaço próprio embaixo ── */
+.cartao-oferta { color: #fff; background: linear-gradient(120deg, #b84a1e 0%, #a3401a 55%, #8f3814 100%); border: 1px solid rgba(255, 255, 255, .22); box-shadow: var(--xd-brilho-topo), 0 28px 56px -30px rgba(160, 60, 15, .7); margin-bottom: 1rem; position: relative; isolation: isolate; overflow: clip; }
+.cartao-oferta::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: var(--xd-grao); }
+.cartao-oferta h3, .cartao-oferta .preco b { color: #fff; }
+.cartao-oferta .preco small { color: rgba(255, 255, 255, .88); }
+.cartao-oferta .oferta-txt .sobre { background: rgba(255, 255, 255, .16); border-color: rgba(255, 255, 255, .42); color: #fff; box-shadow: none; }
+.cartao-oferta .oferta-txt .sobre i { background: #fff; }
+.cartao-oferta .pontos li, .cartao-oferta .pontos li span { color: rgba(255, 255, 255, .96); }
+.cartao-oferta .pontos .ic, .cartao-oferta li .ic { color: #fff; }
+.cartao-oferta .oferta-mascote { background: #f4ede3; box-shadow: 0 10px 24px -14px rgba(0, 0, 0, .5); }
+.cartao-oferta .botao-acao { background: #fff; color: #8f3814; box-shadow: 0 12px 26px -14px rgba(0, 0, 0, .5); }
+.cartao-oferta .botao-vidro { color: #fff; border-color: rgba(255, 255, 255, .65); background: rgba(255, 255, 255, .14); }
+.cartao-oferta .nota { color: rgba(255, 255, 255, .92); }
+@media (min-width: 40rem) { .cartao-oferta { margin-bottom: 1.25rem; } }
+@media (min-width: 64rem) { .cartao-oferta { margin-bottom: 1.5rem; } }
