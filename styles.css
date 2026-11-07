@@ -318,20 +318,41 @@ body {
   .link { min-height: 96px; }
   .footer { align-items: flex-start; margin-top: 22px; }
 }
-/* Computador: sem a foto. O vídeo do YouTube ocupa a metade esquerda (sobre o fundo borrado) e o conteúdo fica na direita. */
+/* Computador: sem a foto. Na esquerda, sobre o fundo borrado, o nome com as redes e a bio e logo abaixo o vídeo do YouTube; na direita os links. */
+.lado { margin-top: 11px; }
+.lado__id { display: none; }
 @media (min-width: 64rem) {
   .hero__img, .hero__fade { display: none; }
+  .hero__content, .socials, .bio { display: none; }
   .page-bg { display: block; position: fixed; inset: -10% 50% -10% -10%; opacity: .5; }
-  .video-wrap {
-    position: fixed;
-    z-index: 2;
-    inset-block: 0;
-    left: 3vw;
-    margin-block: auto;
-    width: min(44vw, calc((100svh - 6rem) * 16 / 9));
-    height: auto;
+  .lado {
+    position: fixed; z-index: 2; inset-block: 0; left: 3vw; margin: 0;
+    width: min(44vw, calc((100svh - 17rem) * 16 / 9));
+    display: flex; flex-direction: column; justify-content: center; gap: 22px;
   }
+  .lado__id { display: block; }
+  .lado__nome { display: flex; align-items: center; gap: 8px; font-size: 44px; line-height: 52px; font-weight: 750; letter-spacing: .25px; }
+  .lado__nome .badge { width: 26px; height: 26px; }
+  .lado__handle { margin-top: 4px; font-size: 16px; font-weight: 500; color: var(--muted); }
+  .lado__redes { display: flex; gap: 14px; margin: 16px 0 14px; }
+  .lado__bio { font-size: 16px; line-height: 1.5; color: rgba(255, 255, 255, .88); }
+  .video-wrap { position: relative; width: 100%; height: auto; z-index: auto; }
   .video-wrap:hover { transform: none; }
+  .card { justify-content: center; }
+}
+@media (min-width: 64rem) and (max-width: 79.99rem) {
+  .lado__nome { font-size: 34px; line-height: 40px; }
+}
+@media (min-width: 64rem) and (max-height: 760px) {
+  .lado { gap: 14px; }
+  .lado__nome { font-size: 34px; line-height: 40px; }
+  .lado__redes { margin: 10px 0 8px; }
+  .lado__bio { font-size: 15px; line-height: 1.4; }
+}
+@media (min-width: 64rem) and (max-height: 640px) {
+  .lado__nome { font-size: 28px; line-height: 32px; }
+  .lado__handle, .lado__bio br { display: none; }
+  .lado__bio { font-size: 14px; }
 }
 @media (min-width: 64rem) and (max-height: 1000px) {
   .name { font-size: 40px; line-height: 46px; }
@@ -344,4 +365,33 @@ body {
 @media (min-width: 64rem) and (max-width: 79.99rem) {
   .name { font-size: 34px; line-height: 40px; gap: 6px; }
   .badge { width: 22px; height: 22px; }
+}
+
+/* Computador: tudo cabe na altura da janela, sem rolar. Quanto mais baixa a janela, mais compacto (celular não muda). */
+@media (min-width: 64rem) and (max-height: 820px) {
+  .card { padding-block: 14px; }
+  .name { font-size: 34px; line-height: 40px; }
+  .handle { font-size: 14px; margin-top: 2px; }
+  .socials { margin: 10px 0 8px; gap: 14px; }
+  .socials__btn { width: 40px; height: 40px; }
+  .bio { font-size: 15px; line-height: 1.4; margin: 0 0 12px; }
+  .links { gap: 8px; }
+  .link { min-height: 62px; padding: 8px 18px; gap: 10px; }
+  .link__title { font-size: 16px; }
+  .link__content { gap: 2px; }
+  .footer { margin-top: 12px; gap: 6px; }
+}
+@media (min-width: 64rem) and (max-height: 700px) {
+  .name { font-size: 30px; line-height: 34px; }
+  .bio { margin-bottom: 8px; }
+  .link { min-height: 52px; padding-block: 6px; }
+  .link small { display: none; }
+  .socials { margin: 8px 0 6px; }
+  .footer { margin-top: 8px; gap: 2px; }
+}
+@media (min-width: 64rem) and (max-height: 600px) {
+  .handle { display: none; }
+  .link { min-height: 46px; }
+  .bio { font-size: 14px; margin-bottom: 6px; }
+  .footer__cta { display: none; }
 }

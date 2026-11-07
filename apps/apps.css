@@ -155,8 +155,27 @@ html:has(.ap-body) { overscroll-behavior: none; }
   .ap-mini, .ap-item .ap-ic, .ap-abrir, .apps__todas { transition: none; }
 }
 
-/* Telas em pé do aplicativo: fileira como na loja, com ímã; só ela rola, a página não */
-.ap-rail { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding-bottom: 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.ap-rail::-webkit-scrollbar { display: none; }
-.ap-rail img { flex: none; width: clamp(9.5rem, 46vw, 12.5rem); height: auto; aspect-ratio: 600 / 1304; border-radius: 22px; border: 1px solid var(--ap-linha); scroll-snap-align: start; background: var(--ap-cartao); }
-.ap-rail:focus-visible { outline: 2px solid #4da3ff; outline-offset: 4px; border-radius: 12px; }
+/* Telas em pé do aplicativo: grade, sem rolagem lateral. Celular: 4 à vista e "Ver as outras" abre o resto. */
+.ap-grade { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.ap-grade img { width: 100%; height: auto; aspect-ratio: 600 / 1304; border-radius: 18px; border: 1px solid var(--ap-linha); background: var(--ap-cartao); }
+.ap-mais { margin-top: 12px; }
+.ap-mais summary { display: grid; place-items: center; min-height: 44px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .22); color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; list-style: none; }
+.ap-mais summary::-webkit-details-marker { display: none; }
+.ap-mais[open] summary { margin-bottom: 12px; }
+@media (max-width: 47.99rem) { .ap-extra { display: none; } }
+@media (min-width: 48rem) { .ap-grade { grid-template-columns: repeat(4, 1fr); } .ap-grade--6 { grid-template-columns: repeat(3, 1fr); } .ap-mais { display: none; } }
+
+/* Computador baixo: a faixa de sistemas encolhe junto com o resto */
+@media (min-width: 64rem) and (max-height: 820px) {
+  .apps { margin: 8px 0 6px; }
+  .apps__tit { margin-bottom: 8px; }
+  .apps__faixa { gap: 6px; }
+  .ap-mini .ap-ic { max-width: 44px; }
+  .apps__todas { margin-top: 8px; }
+}
+@media (min-width: 64rem) and (max-height: 700px) {
+  .apps__tit { display: none; }
+  .apps { margin: 4px 0 2px; }
+  .ap-mini .ap-ic { max-width: 38px; }
+  .apps__todas { margin-top: 6px; min-height: 40px; }
+}

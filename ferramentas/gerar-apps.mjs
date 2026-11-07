@@ -15,15 +15,15 @@ export const apps = [
     texto: 'CRM, projetos, calendário editorial, financeiro, cobranças, equipe e aprovação do cliente num só lugar, com inteligência artificial que lê a operação e responde sobre ela.',
     pontos: ['CRM, projetos e calendário editorial', 'Financeiro e cobranças', 'Aprovação do cliente', 'IA que responde sobre a operação'] },
   { slug: 'construsoft', nome: 'ConstruSoft', sub: 'Gestão de obras para construtoras', setor: 'Construção civil', plat: 'Web e celular', oferta: '14 dias grátis',
-    url: 'https://construsoftbr.com/?ref=alexandrehen_cf9e', site: 'construsoftbr.com', icone: 'construsoft.webp', cap: 'cap-construsoft.webp',
+    url: 'https://construsoftbr.com/?ref=alexandrehen_cf9e', site: 'construsoftbr.com', icone: 'construsoft.webp', cap: 'cap-construsoft.webp', caps: [1,2,3,4,5,6].map((n) => `construsoft-${n}.webp`),
     texto: 'Obras, parcelas com recibo em PDF, despesas, estoque e equipe em um sistema só, com usuários ilimitados.',
     pontos: ['Parcelas com recibo em PDF', 'Despesas, estoque e equipe por obra', 'Usuários ilimitados', '14 dias grátis'] },
   { slug: 'frox', nome: 'FroX', sub: 'Gestão de frota de caminhões', setor: 'Transporte e frotas', plat: 'Web e celular', oferta: 'Plano grátis',
-    url: 'https://froxbr.com/register?ref=alexandrehen_cf9', site: 'froxbr.com', icone: 'frox.webp', cap: 'cap-frox.webp',
+    url: 'https://froxbr.com/register?ref=alexandrehen_cf9', site: 'froxbr.com', icone: 'frox.webp', cap: 'cap-frox.webp', caps: [1,2,3,4,5,6].map((n) => `frox-${n}.webp`),
     texto: 'Registro de viagens, receitas e despesas, custo por caminhão e relatório geral, sem rastreador. Começa com um plano grátis permanente para um caminhão e cresce para o Plano Frotas.',
     pontos: ['Plano Grátis permanente para 1 caminhão', 'Plano Frotas a partir de R$ 63,75/mês', 'Viagens, receitas e despesas no mesmo lugar', 'Funciona sem rastreador'] },
   { slug: 'softpay', nome: 'SoftPay', sub: 'PDV, estoque e vendas para o comércio', setor: 'Comércio e varejo', plat: 'Web e celular', oferta: '7 dias grátis',
-    url: 'https://www.softpaybr.com/auth?ref=alexandrehen_cf9e', site: 'softpaybr.com', icone: 'softpay.webp', cap: 'cap-softpay.webp',
+    url: 'https://www.softpaybr.com/auth?ref=alexandrehen_cf9e', site: 'softpaybr.com', icone: 'softpay.webp', cap: 'cap-softpay.webp', caps: [1,2,3,4,5,6].map((n) => `softpay-${n}.webp`),
     texto: 'PDV moderno, controle de estoque, vendas no PIX e no cartão, fiado, relatórios e Curva ABC.',
     pontos: ['PDV com PIX e cartão', 'Controle de estoque e Curva ABC', 'Fiado e relatórios', '7 dias grátis, sem cartão'] },
   { slug: 'hotelgestao', nome: 'HotelGestão', sub: 'Sistema para hotel e pousada na nuvem', setor: 'Hotéis e pousadas', plat: 'Web', oferta: '14 dias grátis', tile: 'claro',
@@ -34,9 +34,9 @@ export const apps = [
     url: 'https://pdfsemcadastro.com.br', site: 'pdfsemcadastro.com.br', icone: 'pdf.webp', cap: 'cap-pdf.webp',
     texto: 'Ferramentas de PDF e imagem sem cadastro. Os arquivos não saem do celular ou do computador: ninguém vê, nem a VisionX.',
     pontos: ['Comprimir, juntar, assinar e converter', 'Sem cadastro e grátis', 'O arquivo não sai do seu aparelho'] },
-  { slug: 'biblia', nome: 'Bíblia Sagrada: Dia e Noite', sub: 'Rituais de manhã e de noite', setor: 'Leitura e rotina', plat: 'iPhone', oferta: 'Grátis', emBreve: true,
-    url: null, site: null, icone: 'biblia.webp', cap: null, caps: [1,2,3,4,5,6,7,8].map((n) => `biblia-${n}.webp`),
-    texto: 'Aplicativo de iPhone, gratuito, com a leitura da Bíblia organizada em rituais de manhã e de noite. Aguardando aprovação da Apple.',
+  { slug: 'biblia', nome: 'Bíblia Sagrada: Dia e Noite', sub: 'Rituais de manhã e de noite', setor: 'Leitura e rotina', plat: 'iPhone', oferta: 'Grátis', botao: 'Obter',
+    url: 'https://apps.apple.com/br/app/id6826437031', site: 'App Store', icone: 'biblia.webp', cap: null, caps: [1,2,3,4,5,6,7,8].map((n) => `biblia-${n}.webp`),
+    texto: 'Aplicativo de iPhone, gratuito, com a leitura da Bíblia organizada em rituais de manhã e de noite.',
     pontos: ['Para iPhone', 'Grátis', 'Rituais de manhã e de noite'] },
   { slug: 'seuplantao', nome: 'Seu Plantão', sub: 'Agenda e faturamento para plantonistas', setor: 'Saúde', plat: 'Celular (instala)', oferta: 'Grátis',
     url: 'https://seuplantao.app', site: 'seuplantao.app', icone: 'seuplantao.webp', cap: 'cap-seuplantao.webp',
@@ -78,11 +78,12 @@ const head = (titulo, desc, url, img) => `<!DOCTYPE html>
 
 function pagina(a) {
   const cta = a.url
-    ? `<a class="ap-abrir" href="${esc(a.url)}" target="_blank" rel="noopener">Abrir</a>`
+    ? `<a class="ap-abrir" href="${esc(a.url)}" target="_blank" rel="noopener">${a.botao || 'Abrir'}</a>`
     : `<span class="ap-abrir ap-abrir--off" aria-disabled="true">Em breve</span>`;
   const chips = [['Setor', a.setor], ['Plataforma', a.plat], ['Oferta', a.oferta]]
     .map(([k, v]) => `<div class="ap-chip"><small>${k}</small><strong>${esc(v)}</strong></div>`).join('');
-  const rail = a.caps ? `<section class="ap-sec"><h2>Pré-visualização</h2><div class="ap-rail" tabindex="0" aria-label="Telas do ${esc(a.nome)}">${a.caps.map((c, i) => `<img src="/assets/apps/${c}" alt="Tela ${i + 1} do ${esc(a.nome)}" width="600" height="1304" loading="lazy" decoding="async">`).join('')}</div></section>` : '';
+  const img = (c, i, extra = '') => `<img class="${extra}" src="/assets/apps/${c}" alt="Tela ${i + 1} do ${esc(a.nome)}" width="600" height="1304" loading="lazy" decoding="async">`;
+  const rail = a.caps ? `<section class="ap-sec"><h2>Pré-visualização</h2><div class="ap-grade ap-grade--${a.caps.length}">${a.caps.map((c, i) => img(c, i, i >= 4 ? 'ap-extra' : '')).join('')}</div><details class="ap-mais"><summary>Ver as outras ${a.caps.length - 4} telas</summary><div class="ap-grade">${a.caps.slice(4).map((c, i) => img(c, i + 4)).join('')}</div></details></section>` : '';
   const cap = a.caps ? rail : a.cap ? `<section class="ap-sec"><h2>Pré-visualização</h2><img class="ap-cap" src="/assets/apps/${a.cap}" alt="Tela do ${esc(a.nome)}" width="1200" height="750" loading="lazy" decoding="async"></section>` : '';
   const info = [['Vendedor', 'VisionX'], ['Categoria', a.setor], ['Plataforma', a.plat], a.site ? ['Site', a.site] : ['Situação', 'Aguardando aprovação da Apple']]
     .map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
@@ -95,7 +96,7 @@ function pagina(a) {
     <div class="ap-tit">
       <h1>${esc(a.nome)}</h1>
       <p>${esc(a.sub)}</p>
-      <div class="ap-acao">${cta}${a.url ? '<small>Site oficial</small>' : '<small>Para iPhone</small>'}</div>
+      <div class="ap-acao">${cta}${a.url ? `<small>${a.site === 'App Store' ? 'App Store' : 'Site oficial'}</small>` : '<small>Para iPhone</small>'}</div>
     </div>
   </header>
   <div class="ap-chips">${chips}</div>
