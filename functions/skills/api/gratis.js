@@ -4,6 +4,7 @@
 import { erro, MSG } from '../_lib/resposta.js';
 import { conferirTokenGratis } from '../_lib/token.js';
 import { GRATIS } from '../_lib/gratis.js';
+import { contar } from '../_lib/metricas.js';
 
 export async function onRequestGet({ request, env }) {
   const u = new URL(request.url);
@@ -15,6 +16,7 @@ export async function onRequestGet({ request, env }) {
   if (!v.ok && v.motivo === 'vencido') return erro('Este link venceu. Preencha o cadastro de novo para baixar.', 410);
   if (!v.ok) return erro('Link inválido. Preencha o cadastro para baixar.', 403);
 
+  await contar(env, 'baixou_gratis'); // um por download liberado (token válido)
   const { arquivo, base64 } = GRATIS[skill];
   const bin = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
   return new Response(bin, {

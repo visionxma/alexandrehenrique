@@ -100,3 +100,22 @@
     });
   }
 })();
+
+/* Medição do funil: só conta etapas (sem dado pessoal). Falha em silêncio; nunca atrapalha a página. */
+(() => {
+  const avisa = (evento) => {
+    try {
+      fetch('/skills/api/medir', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ evento }), keepalive: true }).catch(() => {});
+    } catch { /* sem rede: segue */ }
+  };
+  let visto = false;
+  try { visto = sessionStorage.getItem('faisca-visita') === '1'; sessionStorage.setItem('faisca-visita', '1'); } catch { /* sem sessionStorage */ }
+  if (!visto) avisa('visita');
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a,button');
+    if (!a) return;
+    if (a.matches('[data-baixar]')) avisa('abre_baixar');
+    else if (a.matches('a[href="#painel"]')) avisa('clique_painel');
+    else if (a.matches('a[href*="nuvpag.com"]')) avisa('clique_comprar');
+  }, true);
+})();

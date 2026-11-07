@@ -6,6 +6,7 @@ import { json, erro, MSG } from '../_lib/resposta.js';
 import { iguais } from '../_lib/token.js';
 import { normalizarEmail } from '../_lib/validacao.js';
 import { K, gravarJSON } from '../_lib/kv.js';
+import { contar } from '../_lib/metricas.js';
 
 const APROVADO = new Set(['purchase_approved', 'approved', 'paid', 'aprovado', 'aprovada', 'pago', 'compra_aprovada']);
 const REVOGAR = new Set([
@@ -82,9 +83,11 @@ export async function onRequestPost({ request, env }) {
 
   if (i.acao === 'aprovar') {
     await gravarJSON(env.FAISCA, K.pago(i.email), { nome: i.nome, produto: i.produto, transacao: i.transacao, quando: new Date(agora).toISOString() });
+    await contar(env, 'compra_aprovada');
     return json({ ok: true, acao: 'liberado' });
   }
   await env.FAISCA.delete(K.pago(i.email));
   await env.FAISCA.delete(K.otp(i.email));
+  await contar(env, 'reembolso');
   return json({ ok: true, acao: 'revogado' });
 }
