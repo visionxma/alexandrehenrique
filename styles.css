@@ -245,6 +245,8 @@ body {
 }
 .link--com .link__bg { object-position: 50% 44%; filter: brightness(.72); }
 .link--visionx .link__bg { object-position: 50% 50%; filter: brightness(.66); }
+.link--skills .link__bg { object-position: 50% 33%; filter: brightness(.85) saturate(1.05); }
+.link--skills { border-color: rgba(255, 140, 80, .45); }
 
 .link__content { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .link__content small { font-size: 13px; color: var(--muted); }
@@ -316,9 +318,10 @@ body {
   .link { min-height: 96px; }
   .footer { align-items: flex-start; margin-top: 22px; }
 }
-@media (min-width: 64rem) and (max-height: 760px) {
-  .name { font-size: 38px; line-height: 44px; }
-  .link { min-height: 84px; padding-block: 12px; }
+@media (min-width: 64rem) and (max-height: 1000px) {
+  .name { font-size: 40px; line-height: 46px; }
+  .link { min-height: 78px; padding-block: 10px; }
+  .links { gap: 10px; }
   .socials { margin: 14px 0 12px; }
   .bio { margin-bottom: 16px; }
   .footer { margin-top: 20px; }
