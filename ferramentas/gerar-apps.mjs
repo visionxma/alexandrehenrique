@@ -143,3 +143,16 @@ sm = sm.replace(/\s*<url><loc>https:\/\/alexandreh\.com\/apps\/[^<]*<\/loc><\/ur
 sm = sm.replace('</urlset>', apps.map((a) => `  <url><loc>https://alexandreh.com/apps/${a.slug}/</loc></url>\n`).join('') + '</urlset>');
 writeFileSync('sitemap.xml', sm);
 console.log(`${apps.length} páginas em apps/, faixa com ${FAIXA}, home e sitemap atualizados`);
+
+// ---- versão por conteúdo: o navegador nunca serve app.js/CSS velho junto com HTML novo
+import { createHash } from 'node:crypto';
+import { readdirSync } from 'node:fs';
+const hash = (f) => createHash('sha1').update(readFileSync(f)).digest('hex').slice(0, 8);
+const v = { 'styles.css': hash('styles.css'), 'apps/apps.css': hash('apps/apps.css'), 'app.js': hash('app.js') };
+const paginas = ['index.html', ...readdirSync('apps', { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => `apps/${d.name}/index.html`)];
+for (const f of paginas) {
+  let t = readFileSync(f, 'utf8');
+  t = t.replace(/(href|src)="(\/?)(styles\.css|apps\/apps\.css|app\.js)(\?v=[a-f0-9]+)?"/g, (_, at, barra, nome) => `${at}="${barra}${nome}?v=${v[nome]}"`);
+  writeFileSync(f, t);
+}
+console.log('versões:', JSON.stringify(v));

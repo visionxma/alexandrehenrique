@@ -1,0 +1,11 @@
+# O HTML sempre revalida (o navegador não guarda página velha); CSS e JS vão com ?v=hash no endereço.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/apps/*
+  Cache-Control: public, max-age=0, must-revalidate
+/skills/
+  Cache-Control: public, max-age=0, must-revalidate
+/skills/index.html
+  Cache-Control: public, max-age=0, must-revalidate
