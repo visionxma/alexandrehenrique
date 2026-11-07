@@ -1,0 +1,25 @@
+/* Página de vendas, no Padrão Xandim: vidro sobre foto desfocada com grão, Poppins, cápsulas, cartões 22/18/14, alvo 44, letra mín. 13. Tokens iguais aos da área de membros. */
+/* ── Tokens: claro (padrão do aparelho em claro) ───────────────────────── */
+:root {
+  --xd-raio: 22px; --xd-raio-md: 18px; --xd-raio-sm: 14px;
+  /* marca: azul-ciano. Branco sobre a ação dá 6,0:1 no claro e 5,0:1 no escuro */
+  --xd-acao: #0a6a94; --xd-acao-hover: #085780; --xd-acao-texto: #fff;
+  --xd-marca: #0a6a94;
+  --xd-texto: #0e1a26; --xd-texto-2: rgba(14, 26, 38, .78); --xd-texto-3: rgba(14, 26, 38, .68);
+  --xd-vidro: rgba(255, 255, 255, .64); --xd-vidro-forte: rgba(255, 255, 255, .93); --xd-vidro-claro: rgba(255, 255, 255, .86);
+  --xd-vidro-sutil: rgba(10, 50, 80, .05); --xd-vidro-hover: rgba(10, 50, 80, .09);
+  --xd-borda: rgba(10, 50, 80, .12); --xd-borda-forte: rgba(10, 50, 80, .22);
+  --xd-capsula: rgba(255, 255, 255, .66);
+  --xd-veu: linear-gradient(180deg, rgba(236, 244, 249, .82) 0%, rgba(228, 239, 247, .9) 100%);
+  --xd-cortina: rgba(8, 18, 30, .5);
+  --xd-sombra: 0 24px 48px -30px rgba(10, 50, 80, .35);
+  --xd-brilho-topo: inset 0 1px 0 rgba(255, 255, 255, .7);
+  --xd-desfoque: blur(22px) saturate(140%);
+  --xd-ok: #176b3a;
+  --xd-fundo: #e6eef4;
+  --xd-dur: 380ms; --xd-curva: cubic-bezier(.22, 1, .36, 1);
+  --xd-grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.07'/%3E%3C/svg%3E");
+  --w-lateral: 15rem; --w-trilho: 4rem; --w-painel: 26rem; --barra-h: 3.5rem;
+  --f: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
