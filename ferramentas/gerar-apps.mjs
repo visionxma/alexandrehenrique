@@ -7,7 +7,7 @@ const ANO = new Date().getFullYear();
 
 export const apps = [
   { slug: 'finagro', nome: 'Finagro', sub: 'Gestão rural para fazenda e sítio', setor: 'Agropecuária', plat: 'Celular e computador', oferta: 'Grátis até 1.000 animais',
-    url: 'https://finagro.app', site: 'finagro.app', icone: 'finagro.webp', cap: 'cap-finagro.webp',
+    url: 'https://finagro.app', site: 'finagro.app', icone: 'finagro.webp', cap: 'cap-finagro.webp', caps: [1,2,3,4,5,6].map((n) => `finagro-${n}.webp`),
     texto: 'Rebanho, vacinas, GTA, lavoura, contas e fluxo de caixa no celular e no computador. Grátis até 1.000 animais com ficha, sem cartão.',
     pontos: ['Rebanho, vacinas e GTA', 'Lavoura, contas e fluxo de caixa', 'Celular e computador', 'Grátis até 1.000 animais com ficha'] },
   { slug: 'midiamente', nome: 'Mídiamente', sub: 'Gestão com IA para agências de marketing', setor: 'Marketing', plat: 'Web', oferta: 'Online',
