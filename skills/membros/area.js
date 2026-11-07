@@ -5,7 +5,7 @@
   const app = $('#app');
   const raiz = document.documentElement;
   const PAGINA = 20, PREVIA = 6;
-  const estado = { cat: 'todas', q: '', lic: 'todas', orig: 'todas', sel: null, limite: PAGINA };
+  const estado = { cat: 'inicio', q: '', lic: 'todas', orig: 'todas', sel: null, limite: PAGINA };
   let D = null, porId = new Map(), porCat = new Map();
   let focoAntes = null;
 
@@ -35,7 +35,7 @@
     $$('[data-baixar-tudo]').forEach((a) => { a.href = ZIP_TUDO; });
     $$('[data-tamanho-tudo]').forEach((el) => { el.textContent = `(${bytes(D.todas.bytes_zip)})`; });
     $$('[data-ano]').forEach((el) => { el.textContent = new Date().getFullYear(); });
-    montarMenu(); montarFiltros(); montarTema(); montarBarra();
+    montarFiltros(); montarBarra(); montarInicio();
     $('#r-skills').textContent = D.skills.length;
     $('#r-cats').textContent = D.categorias.length;
     $('#r-orig').textContent = new Set(D.skills.map((s) => s.origem && s.origem.nome)).size;
@@ -53,12 +53,11 @@
     const [tipo, v] = h.split('/');
     if (tipo === 'categoria' && porCat.has(v)) { estado.cat = v; estado.sel = null; }
     else if (tipo === 'skill' && porId.has(v)) { estado.sel = v; const c = porId.get(v).categoria; if (inicial || (estado.cat !== 'todas' && estado.cat !== c)) estado.cat = c; }
-    else { estado.cat = 'todas'; estado.sel = null; }
+    else if (tipo === 'skills') { estado.cat = 'todas'; estado.sel = null; }
+    else { estado.cat = 'inicio'; estado.sel = null; }
   }
-  const hashAtual = () => (estado.cat === 'todas' ? '#/' : `#/categoria/${estado.cat}`);
+  const hashAtual = () => (estado.cat === 'inicio' ? '#/' : estado.cat === 'todas' ? '#/skills' : `#/categoria/${estado.cat}`);
 
-  /* nomes curtos (11 px) do trilho recolhido */
-  const CURTO = { todas: 'Todas', 'pesquisa-ux-e-produto': 'Pesquisa', 'seo-e-geo': 'SEO', 'design-de-interface-marca-e-slides': 'Design', 'codigo-e-processo-de-trabalho': 'Código', 'animacao-e-3d': 'Motion', 'editar-produzir-video': 'Vídeo', 'nuvem-e-backend': 'Nuvem', 'documentos-e-texto': 'Textos', 'automacao-e-navegador': 'Browser', 'app-de-celular-e-app-store': 'Apps' };
   /* troca de tela: o conteúdo entra com desfoque e os itens sobem a cada 60 ms (só visual) */
   let tTroca;
   function trocaDeTela() {
@@ -68,11 +67,12 @@
   }
   const capa = (c, extra = '') => `<div class="capa" data-cat="${c.slug}"><span class="capa-ic"><svg class="ic"><use href="#i-${c.slug}"/></svg></span><div class="capa-txt"><h2 id="g-${c.slug}">${esc(c.nome)}</h2><p>${c.total} ${c.total === 1 ? 'skill' : 'skills'}</p></div>${extra}</div>`;
 
-  /* ---------- menu ---------- */
-  function montarMenu() {
-    const itens = [{ slug: 'todas', nome: 'Todas as skills', total: D.skills.length }, ...D.categorias];
-    $('#menu').innerHTML = itens.map((c) => `<a href="${c.slug === 'todas' ? '#/' : `#/categoria/${c.slug}`}" data-cat="${c.slug}" title="${esc(c.nome)}"><svg class="ic"><use href="#i-${c.slug}"/></svg><span class="rot">${esc(c.nome)}</span><span class="curto">${CURTO[c.slug] || esc(c.nome.split(' ')[0])}</span><b>${c.total}</b></a>`).join('');
-    $('#menu').addEventListener('click', (e) => { if (e.target.closest('a')) fecharMenu(); });
+  /* ---------- início: banner da comunidade (já no HTML) + módulos de skills ---------- */
+  function montarInicio() {
+    $('#modulos').innerHTML = D.categorias.map((c) => `<li><a class="modulo" href="#/categoria/${esc(c.slug)}" data-cat="${esc(c.slug)}">
+      <span class="mod-capa"><img src="assets/laranja/p/${esc(c.slug)}.webp" alt="" width="640" height="361" loading="lazy" decoding="async"><span class="mod-ic"><svg class="ic"><use href="#i-${esc(c.slug)}"/></svg></span></span>
+      <span class="mod-nome">${esc(c.nome)}</span>
+      <span class="mod-n">${c.total} ${c.total === 1 ? 'skill' : 'skills'}</span></a></li>`).join('');
   }
 
   /* ---------- filtros ---------- */
@@ -97,18 +97,22 @@
   /* ---------- render ---------- */
   function renderTudo() {
     const cat = porCat.get(estado.cat);
-    const titulo = cat ? cat.nome : 'Todas as skills';
+    const inicio = estado.cat === 'inicio';
+    const titulo = inicio ? 'Início' : cat ? cat.nome : 'Todas as skills';
     $('#titulo').textContent = titulo;
-    $('#barra-titulo').textContent = titulo;
     document.title = `${titulo} | Faísca`;
-    $('#cab-sobre').textContent = 'Faísca';
     trocaDeTela();
-    $('#teto').textContent = cat ? cat.texto : `Biblioteca com ${D.skills.length} skills para o Claude Code, em ${D.categorias.length} categorias. Baixe uma por uma ou tudo de uma vez.`;
+    /* acima do título: "Faísca" no início; nas outras telas, o caminho de volta */
+    $('#cab-sobre').innerHTML = inicio ? 'Faísca' : '<a class="voltar" href="#/"><svg class="ic"><use href="#i-voltar"/></svg>Início</a>';
+    $('#teto').textContent = inicio ? 'Entre na comunidade e escolha um módulo de skills para ver e baixar.' : cat ? cat.texto : `Biblioteca com ${D.skills.length} skills para o Claude Code, em ${D.categorias.length} categorias. Baixe uma por uma ou tudo de uma vez.`;
     const bc = $('#baixar-cat'); bc.hidden = !cat;
     if (cat) { bc.href = zipCat(cat.slug); $('span', bc).textContent = `Baixar esta categoria (${bytes(cat.bytes_zip)})`; }
-    $('#resumo').hidden = !!cat; estado.limite = PAGINA;
-    $$('#menu a').forEach((a) => { a.toggleAttribute('aria-current', a.dataset.cat === estado.cat); if (a.dataset.cat === estado.cat) a.setAttribute('aria-current', 'page'); });
-    renderLista();
+    $('#inicio').hidden = !inicio;
+    $('#resumo').hidden = estado.cat !== 'todas';
+    $('#filtros').hidden = inicio; $('#lista').hidden = inicio;
+    estado.limite = PAGINA;
+    $$('#topo-nav a').forEach((a) => { const atual = a.dataset.cat === estado.cat; a.toggleAttribute('aria-current', atual); if (atual) a.setAttribute('aria-current', 'page'); });
+    if (!inicio) renderLista(); else renderSelecao();
   }
 
   function linha(s) {
@@ -226,7 +230,6 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if ($('#dlg-instalar').open) return;
-      if (app.classList.contains('menu-aberto')) { fecharMenu(); $('#abrir-menu').focus(); return; }
       if ($('#painel').classList.contains('aberto')) { fecharPainel(); return; }
     }
     if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && $('#painel').classList.contains('aberto') && !/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) {
@@ -236,39 +239,21 @@
     }
   });
 
-  /* ---------- gaveta do celular, véu ---------- */
-  const abrirMenu = () => { app.classList.add('menu-aberto'); $('#abrir-menu').setAttribute('aria-expanded', 'true'); atualizarVeu(); $('#menu a[aria-current]')?.focus(); };
-  function fecharMenu() { app.classList.remove('menu-aberto'); $('#abrir-menu').setAttribute('aria-expanded', 'false'); atualizarVeu(); }
+  /* ---------- véu do painel de detalhes ---------- */
   function atualizarVeu() {
-    const v = $('#veu'); const menu = app.classList.contains('menu-aberto'); const painel = $('#painel').classList.contains('aberto');
-    v.hidden = !(menu || painel); v.className = `veu ${menu ? 'so-menu' : 'so-painel'}`;
+    const v = $('#veu'); const painel = $('#painel').classList.contains('aberto');
+    v.hidden = !painel; v.className = 'veu so-painel';
     /* sob o véu, o que está atrás não recebe foco nem leitor de tela */
     const larga = matchMedia('(min-width: 80rem)').matches; const cobre = painel && !larga;
-    $('#conteudo').inert = cobre || menu; $('.barra-celular').inert = cobre || menu; $('#lateral').inert = cobre;
+    $('#conteudo').inert = cobre; $('#topo').inert = cobre;
   }
-  $('#abrir-menu').addEventListener('click', abrirMenu);
-  $('#fechar-menu').addEventListener('click', fecharMenu);
-  $('#veu').addEventListener('click', () => { if (app.classList.contains('menu-aberto')) fecharMenu(); else fecharPainel(); });
+  $('#veu').addEventListener('click', () => fecharPainel());
 
-  /* ---------- barra lateral recolhível, tema, ajuda ---------- */
+  /* ---------- ajuda ---------- */
   function montarBarra() {
-    const b = $('#recolher'); const recolhida = () => raiz.classList.contains('lateral-recolhida');
-    const sync = () => { b.setAttribute('aria-expanded', String(!recolhida())); b.setAttribute('aria-label', recolhida() ? 'Expandir barra lateral' : 'Recolher barra lateral'); };
-    b.addEventListener('click', () => { raiz.classList.toggle('lateral-recolhida'); guarda('lateral', recolhida() ? 'recolhida' : 'aberta'); sync(); });
-    sync();
     const dlg = $('#dlg-instalar');
     $('#como-instalar').addEventListener('click', () => dlg.showModal());
     $('[data-fechar]', dlg).addEventListener('click', () => dlg.close());
-  }
-  function montarTema() {
-    const nomes = { auto: 'Aparelho', claro: 'Claro', escuro: 'Escuro' };
-    let atual = le('tema'); if (atual !== 'escuro' && atual !== 'auto') atual = 'claro'; /* claro é o padrão */
-    const aplica = () => {
-      if (atual === 'auto') delete raiz.dataset.tema; else raiz.dataset.tema = atual;
-      $('#tema-nome').textContent = nomes[atual]; $('#tema').setAttribute('aria-label', `Tema: ${nomes[atual].toLowerCase()}. Tocar para trocar`);
-    };
-    $('#tema').addEventListener('click', () => { atual = atual === 'auto' ? 'claro' : atual === 'claro' ? 'escuro' : 'auto'; guarda('tema', atual); aplica(); });
-    aplica();
   }
 
   /* ═══ porta de entrada: e-mail → código de 6 dígitos → painel ═══ */
