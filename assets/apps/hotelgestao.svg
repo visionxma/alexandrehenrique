@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 442 544" role="img" aria-label="HotelGestão">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F08A4B"/>
+      <stop offset="0.45" stop-color="#C2410C"/>
+      <stop offset="1" stop-color="#9E3009"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#g)" fill-rule="evenodd" d="M 1 542 L 1 45 Q 1 1 45 1 L 112 1 L 112 175 L 220 83 L 329 175 L 329 103 L 390 103 Q 440 103 440 165 L 440 542 L 257 542 L 257 420 Q 257 383 221 383 Q 185 383 185 420 L 185 542 Z M 167 217 h 36 v 38 h -36 Z M 239 217 h 36 v 38 h -36 Z M 167 289 h 36 v 38 h -36 Z M 239 289 h 36 v 38 h -36 Z"/>
+</svg>
