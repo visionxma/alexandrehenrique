@@ -46,8 +46,8 @@ export const apps = [
     url: 'https://advogestao.com.br', site: 'advogestao.com.br', icone: 'advocacia.webp', cap: 'cap-advocacia.webp',
     texto: 'Processos, prazos, clientes, agenda e financeiro para escritórios de advocacia, com consulta ao CNJ e inteligência artificial. Teste 7 dias grátis, sem cartão.',
     pontos: ['Processos, prazos e clientes', 'Agenda e financeiro', 'Consulta ao CNJ e IA', '7 dias grátis, sem cartão'] },
-  { slug: 'brasilvisto', nome: 'BrasilVisto', sub: 'Política, economia e dados, com a fonte à vista', setor: 'Notícias e dados', plat: 'Web', oferta: 'Online', tile: 'claro',
-    url: 'https://brasilvisto.com.br', site: 'brasilvisto.com.br', icone: 'brasilvisto.svg', cap: 'cap-brasilvisto.webp',
+  { slug: 'brasilvisto', nome: 'BrasilVisto', sub: 'Política, economia e dados, com a fonte à vista', setor: 'Notícias e dados', plat: 'Web', oferta: 'Online',
+    url: 'https://brasilvisto.com.br', site: 'brasilvisto.com.br', icone: 'brasilvisto.webp', cap: 'cap-brasilvisto.webp',
     texto: 'Portal de notícias, política, economia, negócios, finanças e indicadores. Agrega manchetes de fontes identificadas e publica análises próprias.',
     pontos: ['Manchetes de fontes identificadas', 'Análises próprias', 'Indicadores de economia e finanças'] },
 ];
