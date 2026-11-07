@@ -12,3 +12,8 @@ id = "d6c281a8c4804ddd849c3ba700b3f431"
 [[r2_buckets]]
 binding = "ZIPS"
 bucket_name = "faisca-skills"
+
+# Worker interno que envia o código de acesso por e-mail (workers/faisca-email)
+[[services]]
+binding = "MAIL"
+service = "faisca-email"

@@ -33,6 +33,21 @@ confere 'lead devolve url' 1 "$([ -n "$url" ] && echo 1 || echo 0)"
 cab=$(curl -s -D - -o "$TMP/gratis.zip" "$B$url" | tr -d '\r')
 confere 'grátis 200' 200 "$(printf '%s' "$cab" | awk 'NR==1{print $2}')"
 confere 'grátis é zip' PK "$(head -c 2 "$TMP/gratis.zip")"; rm -f "$TMP/gratis.zip"
+# 1b. pacote "todas" (as 5 grátis num zip só), com outro desafio e outro IP (o limite é 5 leads/hora por IP)
+r=$(curl -s "$B/skills/api/desafio")
+d2=$(printf '%s' "$r" | sed -n 's/.*"desafio":"\([^"]*\)".*/\1/p')
+s2=$(node "$AQUI/solver-pow.mjs" "$d2" "$bits")
+r=$(curl -s "${O[@]}" -H "cf-connecting-ip: 10.9.9.$((RANDOM % 250))" -X POST "$B/skills/api/lead" -d "{\"nome\":\"Maria da Silva\",\"telefone\":\"(19) 99524-4237\",\"skill\":\"todas\",\"aceito\":true,\"desafio\":\"$d2\",\"solucao\":\"$s2\"}")
+url2=$(printf '%s' "$r" | sed -n 's/.*"url":"\([^"]*\)".*/\1/p')
+confere 'lead "todas" devolve url' 1 "$(printf '%s' "$url2" | grep -c '^/skills/api/gratis?s=todas&t=')"
+cab=$(curl -s -D - -o "$TMP/todas.zip" "$B$url2" | tr -d '\r')
+confere 'todas 200' 200 "$(printf '%s' "$cab" | awk 'NR==1{print $2}')"
+confere 'todas nome do arquivo' 1 "$(printf '%s' "$cab" | grep -ic 'content-disposition: attachment; filename="faisca-5-skills-gratis.zip"')"
+confere 'todas íntegro (unzip -t)' 0 "$(unzip -tq "$TMP/todas.zip" >/dev/null 2>&1; echo $?)"
+confere 'todas tem 5 pastas + LEIA-ME + NOTICES' 7 "$(unzip -Z1 "$TMP/todas.zip" | grep -cE '^faisca-5-skills-gratis/([a-z-]+/|LEIA-ME\.md|NOTICES\.md)$')"
+rm -f "$TMP/todas.zip"
+t2=$(printf '%s' "$url2" | sed -n 's/.*&t=//p')
+confere 'token de todas em outra skill' 403 "$(st "$B/skills/api/gratis?s=humanizer&t=$t2")"
 confere 'grátis com skill paga' 404 "$(st "$B/skills/api/gratis?s=frontend-design&t=x")"
 
 # 2. webhook de compra
@@ -51,7 +66,8 @@ confere 'código 200' 200 "$(printf '%s' "$cab" | awk 'NR==1{print $2}')"
 cookie=$(printf '%s' "$cab" | sed -n 's/^[Ss]et-[Cc]ookie: \(faisca_sessao=[^;]*\).*/\1/p')
 confere 'cookie HttpOnly/Secure/Lax/Path' 1 "$(printf '%s' "$cab" | grep -ic 'set-cookie: faisca_sessao=.*HttpOnly; Secure; SameSite=Lax; Path=/skills')"
 confere 'eu com sessão' 200 "$(st -H "cookie: $cookie" "$B/skills/api/membros/eu")"
-confere 'eu sem sessão' 401 "$(st "$B/skills/api/membros/eu")"
+confere 'eu sem cookie (visitante: 200, email null)' '200 null' "$(curl -s -w ' %{http_code}' "$B/skills/api/membros/eu" | sed -n 's/.*"email":\([a-z]*\).* \([0-9]*\)$/\2 \1/p')"
+confere 'eu com cookie forjado' 401 "$(st -H 'cookie: faisca_sessao=forjado.xxx' "$B/skills/api/membros/eu")"
 
 # 4. zip protegido
 cab=$(curl -s -D - -o "$TMP/todas.zip" -H "cookie: $cookie" "$B/skills/api/membros/zip?todas=1" | tr -d '\r')

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR" class="xandim">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faísca | Área de membros</title>
+<meta name="description" content="Área de membros da Faísca: entre com o e-mail da compra e baixe as skills para o Claude Code.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/laranja/favicon.png">
+<link rel="preload" href="fonts/poppins-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/poppins-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/laranja/hero.webp" as="image" type="image/webp">
+<link rel="stylesheet" href="fonts/fontes.css">
+<link rel="stylesheet" href="area.css">
+<script>
+  /* tema e barra lateral antes da pintura, para não piscar */
+  try {
+    var t = localStorage.getItem('tema'); if (t === 'escuro') document.documentElement.dataset.tema = 'escuro'; else if (t !== 'auto') document.documentElement.dataset.tema = 'claro'; /* claro é o padrão; 'auto' só se a pessoa escolheu Aparelho */
+    if (localStorage.getItem('lateral') === 'recolhida') document.documentElement.classList.add('lateral-recolhida');
+  } catch (e) { document.documentElement.dataset.tema = 'claro'; }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-todas" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+    <symbol id="i-pesquisa-ux-e-produto" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+    <symbol id="i-seo-e-geo" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5M8 12.5l2-2.5 1.5 1.5L14 9"/></symbol>
+    <symbol id="i-design-de-interface-marca-e-slides" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 013 3L8 19z"/><path d="M14.5 6.5l3 3"/></symbol>
+    <symbol id="i-codigo-e-processo-de-trabalho" viewBox="0 0 24 24"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 5l-3 14"/></symbol>
+    <symbol id="i-animacao-e-3d" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></symbol>
+    <symbol id="i-editar-produzir-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z"/></symbol>
+    <symbol id="i-nuvem-e-backend" viewBox="0 0 24 24"><path d="M7 18a4 4 0 01-.6-7.95A5.5 5.5 0 0117 9.5a4.3 4.3 0 01.5 8.5z"/></symbol>
+    <symbol id="i-documentos-e-texto" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+    <symbol id="i-automacao-e-navegador" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+    <symbol id="i-app-de-celular-e-app-store" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="i-baixar" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-recolher" viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></symbol>
+    <symbol id="i-copiar" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5v-2a2 2 0 00-2-2h-7a2 2 0 00-2 2v7a2 2 0 002 2h2"/></symbol>
+    <symbol id="i-tema" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 010 16z" fill="currentColor"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 6H6.5A2.5 2.5 0 004 8.5v9A2.5 2.5 0 006.5 20h9a2.5 2.5 0 002.5-2.5V14M14 4h6v6M20 4l-9 9"/></symbol>
+    <symbol id="i-ajuda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 114 2c-.9.6-1.6 1.1-1.6 2.1M12 17h.01"/></symbol>
+    <symbol id="i-sair" viewBox="0 0 24 24"><path d="M10 4H6.5A1.5 1.5 0 005 5.5v13A1.5 1.5 0 006.5 20H10M15 8l4 4-4 4M19 12H9.5"/></symbol>
+    <symbol id="i-aviso" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
+    <symbol id="i-k-skills" viewBox="0 0 24 24"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"/></symbol>
+    <symbol id="i-k-origens" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8.4v7.2M8.2 6.8c5 .6 7.6 2 7.6 3.4M8.2 17.2c5-.6 7.6-2 7.6-3.4"/></symbol>
+    <symbol id="i-vazio" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M8.5 11h5"/></symbol>
+  </defs>
+</svg>
+
+<!-- porta de entrada: cena da marca em tela cheia, formulário em cartão por cima. Sem sessão, o painel abaixo nem é montado. -->
+<main class="acesso" id="acesso" aria-labelledby="ac-titulo-1">
+  <div class="ac-cena" aria-hidden="true">
+    <img src="assets/laranja/hero.webp" alt="" width="1600" height="900" fetchpriority="high" decoding="async">
+    <i class="ac-fa a"></i><i class="ac-fa b"></i><i class="ac-fa c"></i>
+  </div>
+
+  <header class="ac-topo">
+    <a class="marca" href="/skills/" aria-label="Faísca">
+      <img src="assets/laranja/logo-96.webp" alt="" width="32" height="32">
+      <span>Faísca</span>
+    </a>
+    <a class="botao botao-vidro ac-ver" href="/skills/">Ainda não tem? <b>Ver a Faísca</b></a>
+  </header>
+
+  <div class="ac-cartao">
+    <p class="ac-carregando" id="ac-carregando" role="status"><span class="gira" aria-hidden="true"></span>Verificando o seu acesso…</p>
+
+    <form class="ac-passo" id="ac-p1" novalidate hidden>
+      <h1 id="ac-titulo-1">Já comprou? Entre com o e-mail da compra</h1>
+      <p class="ac-apoio">Você recebe um código de 6 dígitos nesse e-mail. Não precisa de senha.</p>
+      <div class="campo">
+        <label for="ac-email">E-mail da compra</label>
+        <input id="ac-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@exemplo.com" required aria-describedby="ac-erro-1">
+      </div>
+      <p class="ac-erro" id="ac-erro-1" role="alert" hidden><svg class="ic"><use href="#i-aviso"/></svg><span></span></p>
+      <button type="submit" class="botao botao-acao ac-enviar" id="ac-enviar-1"><span class="gira" aria-hidden="true"></span><span class="rotulo">Receber o código</span></button>
+    </form>
+
+    <form class="ac-passo" id="ac-p2" novalidate hidden>
+      <h1 id="ac-titulo-2">Digite o código</h1>
+      <p class="ac-apoio" id="ac-apoio-2" aria-live="polite">Enviamos um código de 6 dígitos para o seu e-mail.</p>
+      <div class="campo">
+        <label for="ac-codigo">Código de 6 dígitos</label>
+        <input id="ac-codigo" name="codigo" class="ac-codigo" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" autocapitalize="off" spellcheck="false" placeholder="000000" required aria-describedby="ac-erro-2">
+      </div>
+      <p class="ac-dev" id="ac-dev" hidden></p>
+      <p class="ac-erro" id="ac-erro-2" role="alert" hidden><svg class="ic"><use href="#i-aviso"/></svg><span></span></p>
+      <button type="submit" class="botao botao-acao ac-enviar" id="ac-enviar-2"><span class="gira" aria-hidden="true"></span><span class="rotulo">Entrar</span></button>
+      <div class="ac-par">
+        <button type="button" class="botao botao-vidro" id="ac-reenviar" disabled>Reenviar em 30 s</button>
+        <button type="button" class="botao botao-vidro" id="ac-voltar">Voltar</button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="ac-rodape">
+    <p>© <span data-ano>2026</span> Faísca. Todos os direitos reservados.</p>
+    <p class="assina"><img src="assets/visionx-x-64.png" alt="" width="20" height="20"> Feito pela <a href="https://visionxma.com" rel="noopener">VisionX</a></p>
+  </footer>
+</main>
+
+<a class="pula" href="#conteudo">Pular para a lista</a>
+
+<div class="app" id="app" hidden>
+
+  <!-- barra do celular -->
+  <header class="barra-celular">
+    <button type="button" class="icone" id="abrir-menu" aria-label="Abrir categorias" aria-controls="lateral" aria-expanded="false">
+      <svg class="ic"><use href="#i-menu"/></svg>
+    </button>
+    <p class="barra-titulo" id="barra-titulo">Faísca</p>
+    <a class="icone" data-baixar-tudo href="/skills/api/membros/zip?todas=1" download aria-label="Baixar tudo">
+      <svg class="ic"><use href="#i-baixar"/></svg>
+    </a>
+  </header>
+
+  <!-- barra lateral -->
+  <aside class="lateral" id="lateral" aria-label="Categorias">
+    <div class="lateral-topo">
+      <a class="marca" href="#/" aria-label="Faísca, todas as skills">
+        <img src="assets/laranja/logo-96.webp" alt="" width="32" height="32">
+        <span class="rot">Faísca</span>
+      </a>
+      <button type="button" class="icone fecha-menu" id="fechar-menu" aria-label="Fechar categorias">
+        <svg class="ic"><use href="#i-fechar"/></svg>
+      </button>
+    </div>
+    <nav class="menu" id="menu" aria-label="Categorias das skills"></nav>
+    <div class="lateral-pe">
+      <a class="botao botao-acao" data-baixar-tudo href="/skills/api/membros/zip?todas=1" download aria-label="Baixar tudo" title="Baixar tudo">
+        <svg class="ic"><use href="#i-baixar"/></svg><span class="rot">Baixar tudo <small data-tamanho-tudo></small></span><span class="curto">Baixar</span>
+      </a>
+      <button type="button" class="item-pe" id="como-instalar" aria-label="Como instalar" title="Como instalar"><svg class="ic"><use href="#i-ajuda"/></svg><span class="rot">Como instalar</span><span class="curto">Ajuda</span></button>
+      <button type="button" class="item-pe" id="tema" aria-label="Tema: aparelho. Tocar para trocar"><svg class="ic"><use href="#i-tema"/></svg><span class="rot">Tema: <b id="tema-nome">Aparelho</b></span><span class="curto" id="tema-curto">Tema</span></button>
+      <button type="button" class="item-pe" id="sair" aria-label="Sair" title="Sair da área de membros"><svg class="ic"><use href="#i-sair"/></svg><span class="rot">Sair</span><span class="curto">Sair</span></button>
+    </div>
+    <button type="button" class="recolher" id="recolher" aria-label="Recolher barra lateral" aria-expanded="true" aria-controls="lateral">
+      <svg class="ic"><use href="#i-recolher"/></svg>
+    </button>
+  </aside>
+
+  <!-- conteúdo -->
+  <main class="conteudo" id="conteudo" tabindex="-1">
+    <div class="miolo">
+      <header class="cab">
+        <div class="cab-texto">
+          <p class="cab-sobre" id="cab-sobre">Faísca</p>
+          <h1 id="titulo">Todas as skills</h1>
+          <p class="teto" id="teto"></p>
+        </div>
+        <div class="cab-acoes">
+          <a class="botao botao-acao" id="baixar-cat" href="#" download hidden><svg class="ic"><use href="#i-baixar"/></svg><span>Baixar esta categoria</span></a>
+          <a class="botao botao-vidro" data-baixar-tudo href="/skills/api/membros/zip?todas=1" download><svg class="ic"><use href="#i-baixar"/></svg><span>Baixar tudo <small data-tamanho-tudo></small></span></a>
+        </div>
+      </header>
+
+      <ul class="resumo" id="resumo" aria-label="Resumo da biblioteca" hidden>
+        <li><svg class="ic kpi-ic"><use href="#i-k-skills"/></svg><div><b id="r-skills">0</b><span>skills</span></div></li>
+        <li><svg class="ic kpi-ic"><use href="#i-todas"/></svg><div><b id="r-cats">0</b><span>categorias</span></div></li>
+        <li><svg class="ic kpi-ic"><use href="#i-k-origens"/></svg><div><b id="r-orig">0</b><span>origens</span></div></li>
+      </ul>
+
+      <form class="filtros" id="filtros" role="search" aria-label="Filtrar skills" onsubmit="return false">
+        <div class="campo campo-busca">
+          <label for="busca">Buscar</label>
+          <input id="busca" type="search" placeholder="Nome ou o que a skill faz" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="campo">
+          <label for="f-lic">Licença</label>
+          <select id="f-lic"></select>
+        </div>
+        <div class="campo">
+          <label for="f-orig">Origem</label>
+          <select id="f-orig"></select>
+        </div>
+        <p class="contagem" id="contagem" aria-live="polite"></p>
+      </form>
+
+      <div class="lista" id="lista"></div>
+
+      <footer class="rodape">
+        <p>© <span data-ano>2026</span> Faísca. Todos os direitos reservados.</p>
+        <p class="assina"><img src="assets/visionx-x-64.png" alt="" width="20" height="20"> Feito pela <a href="https://visionxma.com" rel="noopener">VisionX</a></p>
+        <p><a href="dados/NOTICES.md" target="_blank" rel="noopener">Avisos de licença e autoria</a></p>
+      </footer>
+    </div>
+  </main>
+
+  <!-- painel de detalhes -->
+  <aside class="painel" id="painel" aria-label="Detalhes da skill" inert>
+    <div class="painel-miolo" id="painel-miolo"></div>
+  </aside>
+
+  <div class="veu" id="veu" hidden></div>
+</div>
+
+<dialog id="dlg-instalar" aria-labelledby="dlg-titulo">
+  <button type="button" class="icone dlg-fechar" data-fechar aria-label="Fechar"><svg class="ic"><use href="#i-fechar"/></svg></button>
+  <h2 id="dlg-titulo">Como instalar uma skill</h2>
+  <ol class="passos">
+    <li><b>Baixe</b> o arquivo da skill (ou o pacote com todas).</li>
+    <li><b>Descompacte</b> na pasta de skills do Claude Code: <code>unzip nome.zip -d ~/.claude/skills/</code>. No Windows, extraia para <code>%USERPROFILE%\.claude\skills</code>.</li>
+    <li><b>Reinicie</b> o Claude Code. A skill passa a aparecer nas skills disponíveis e o agente a usa quando o pedido combina com a descrição dela.</li>
+  </ol>
+  <p class="aviso">As skills de terceiros trazem o arquivo <code>LICENSE</code> do autor, e as autorais trazem o <code>AVISO-AUTORAL.txt</code>. Esse arquivo precisa continuar junto da skill. Algumas skills dependem de ferramentas externas ou de chaves que você precisa ter; a descrição de cada uma diz o que ela usa.</p>
+</dialog>
+
+<noscript><p class="sem-js">A área de membros precisa de JavaScript para entrar e listar as skills. Ative o JavaScript do navegador e atualize a página.</p></noscript>
+
+<script src="area.js" defer></script>
+</body>
+</html>

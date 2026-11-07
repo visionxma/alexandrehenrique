@@ -1,5 +1,6 @@
 // GET /skills/api/gratis?s=<skill>&t=<token>
-// Entrega o zip de uma das 5 skills grátis, só com o token que /lead emitiu (ligado à skill e ao lead, 10 min).
+// Entrega o zip de uma das 5 skills grátis — ou s=todas, as 5 num zip só (faisca-5-skills-gratis.zip) —,
+// só com o token que /lead emitiu (ligado à skill e ao lead, 10 min). Qualquer outra skill → 404.
 import { erro, MSG } from '../_lib/resposta.js';
 import { conferirTokenGratis } from '../_lib/token.js';
 import { GRATIS } from '../_lib/gratis.js';

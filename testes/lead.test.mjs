@@ -15,7 +15,8 @@ beforeEach(() => {
 const corpo = async (r) => [r.status, await r.json()];
 
 test('as 5 skills grátis estão embutidas e são zip', () => {
-  assert.deepEqual(Object.keys(GRATIS).sort(), ['brainstorming', 'code-review', 'humanizer', 'systematic-debugging', 'ui-ux-pro-max']);
+  assert.deepEqual(Object.keys(GRATIS).sort(), ['brainstorming', 'code-review', 'humanizer', 'systematic-debugging', 'todas', 'ui-ux-pro-max']);
+  assert.equal(GRATIS.todas.arquivo, 'faisca-5-skills-gratis.zip');
   for (const [id, z] of Object.entries(GRATIS)) assert.equal(atob(z.base64.slice(0, 4)).slice(0, 2), 'PK', id);
 });
 
@@ -126,4 +127,36 @@ test('download grátis: sem token, adulterado, skill trocada, vencido e skill fo
   await comRelogio(11 * 60 * 1000, async () => {
     assert.equal((await gratis({ request: get(j.url), env })).status, 410);
   });
+});
+
+test('"todas": lead devolve url, /gratis entrega o zip com as 5 pastas, LEIA-ME e NOTICES', async () => {
+  const [st, j] = await corpo(await lead({ request: post('/skills/api/lead', { ...BOM, skill: 'todas' }), env }));
+  assert.equal(st, 200); assert.match(j.url, /^\/skills\/api\/gratis\?s=todas&t=[a-f0-9-]+\.\d+\.[A-Za-z0-9_-]+$/);
+  const dl = await gratis({ request: get(j.url), env });
+  assert.equal(dl.status, 200);
+  assert.equal(dl.headers.get('content-type'), 'application/zip');
+  assert.equal(dl.headers.get('content-disposition'), 'attachment; filename="faisca-5-skills-gratis.zip"');
+  const b = Buffer.from(await dl.arrayBuffer());
+  assert.equal(b.subarray(0, 2).toString(), 'PK');
+  // os nomes ficam sem compressão no diretório central do zip
+  const nomes = b.toString('latin1');
+  for (const id of ['systematic-debugging', 'brainstorming', 'humanizer', 'code-review', 'ui-ux-pro-max']) {
+    assert.ok(nomes.includes(`faisca-5-skills-gratis/${id}/SKILL.md`), id);
+    assert.ok(nomes.includes(`faisca-5-skills-gratis/${id}/LICENSE`), `${id} LICENSE`);
+    assert.ok(!nomes.includes(`faisca-5-skills-gratis/${id}/${id}/`), `${id} sem pasta repetida`);
+  }
+  assert.ok(nomes.includes('faisca-5-skills-gratis/LEIA-ME.md'));
+  assert.ok(nomes.includes('faisca-5-skills-gratis/NOTICES.md'));
+});
+
+test('token de "todas" não vale para outra skill, e o de outra skill não vale para "todas"', async () => {
+  const jt = await (await lead({ request: post('/skills/api/lead', { ...BOM, skill: 'todas' }), env })).json();
+  const tTodas = new URL(SITE + jt.url).searchParams.get('t');
+  const jh = await (await lead({ request: post('/skills/api/lead', { ...BOM, skill: 'humanizer' }), env })).json();
+  const tHum = new URL(SITE + jh.url).searchParams.get('t');
+  assert.equal((await gratis({ request: get(`/skills/api/gratis?s=humanizer&t=${tTodas}`), env })).status, 403);
+  assert.equal((await gratis({ request: get(`/skills/api/gratis?s=todas&t=${tHum}`), env })).status, 403);
+  assert.equal((await gratis({ request: get(`/skills/api/gratis?s=todas&t=${tTodas}`), env })).status, 200);
+  assert.equal((await gratis({ request: get(`/skills/api/gratis?s=frontend-design&t=${tTodas}`), env })).status, 404, 'skill paga segue 404');
+  assert.equal((await gratis({ request: get(`/skills/api/gratis?s=Todas&t=${tTodas}`), env })).status, 404);
 });

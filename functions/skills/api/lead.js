@@ -1,6 +1,7 @@
 // POST /skills/api/lead  { nome, telefone, skill, desafio, solucao, aceito, hp }   (ou `turnstile` no lugar de desafio/solucao)
 // Cadastro para baixar uma skill grátis: valida, confere o anti-robô, limita por IP e por telefone,
 // grava o lead (sem duplicar pelo telefone) e devolve o link assinado do zip, válido por 10 minutos.
+// `skill` aceita uma das 5 grátis ou "todas" (o pacote com as 5).
 import { json, erro, MSG, lerJson, mesmaOrigem, ipDe, emDev } from '../_lib/resposta.js';
 import { validarNome, validarTelefone } from '../_lib/validacao.js';
 import { hashComChave, tokenGratis } from '../_lib/token.js';

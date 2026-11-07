@@ -1,0 +1,10 @@
+# Worker interno da Faísca: manda o código de acesso por e-mail pelo Cloudflare Email Sending.
+# Sem endereço público (workers_dev = false): só o projeto Pages "alexandrehenrique" o chama, por service binding (MAIL).
+name = "faisca-email"
+main = "src/index.js"
+compatibility_date = "2026-07-15"
+workers_dev = false
+preview_urls = false
+
+[[send_email]]
+name = "EMAIL"

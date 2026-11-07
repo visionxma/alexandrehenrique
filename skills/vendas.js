@@ -70,7 +70,7 @@
 
     document.querySelectorAll('[data-baixar]').forEach((b) => b.addEventListener('click', async () => {
       ultimoFoco = b; skill = b.dataset.baixar; mostraErro('');
-      janela.querySelector('[data-skill-nome]').textContent = skill;
+      janela.querySelector('[data-skill-nome]').textContent = skill === 'todas' ? 'as 5 skills grátis' : skill;
       etapa('form'); enviar.disabled = false;
       if (typeof janela.showModal === 'function') janela.showModal(); else janela.setAttribute('open', '');
       form.nome.focus();

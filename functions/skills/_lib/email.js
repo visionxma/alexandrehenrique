@@ -1,5 +1,6 @@
 // Envio do código de acesso por e-mail, com provedor abstrato.
-// Hoje: Resend (https://resend.com) quando RESEND_API_KEY existe. Sem provedor, não envia e diz por quê.
+// Provedores, nesta ordem: (1) Worker interno `faisca-email` (service binding MAIL, Cloudflare Email Sending, sem chave);
+// (2) Resend quando RESEND_API_KEY existe. Sem provedor, não envia e diz por quê.
 // Nunca registra em log o código nem o e-mail inteiro.
 
 export function montarEmailCodigo(codigo) {
@@ -24,6 +25,16 @@ export function montarEmailCodigo(codigo) {
 
 /** → { ok:true, provedor } | { ok:false, motivo } */
 export async function enviarCodigo(env, email, codigo) {
+  if (env.MAIL && typeof env.MAIL.fetch === 'function') {
+    const { assunto, texto, html } = montarEmailCodigo(codigo);
+    try {
+      const r = await env.MAIL.fetch('https://faisca-email/enviar', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ para: email, assunto, texto, html }) });
+      if (!r.ok) return { ok: false, motivo: `mail-${r.status}` };
+      return { ok: true, provedor: 'cloudflare-email' };
+    } catch {
+      return { ok: false, motivo: 'mail-rede' };
+    }
+  }
   if (!env.RESEND_API_KEY) return { ok: false, motivo: 'sem-provedor' };
   if (!env.EMAIL_REMETENTE) return { ok: false, motivo: 'sem-remetente' };
   const { assunto, texto, html } = montarEmailCodigo(codigo);

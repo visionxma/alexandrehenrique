@@ -106,12 +106,12 @@ test('código vencido (10 min) não vale; código de um e-mail não serve em out
   });
 });
 
-test('eu: sem cookie, cookie adulterado ou vencido → 401 e limpa o cookie', async () => {
+test('eu: sem cookie → 200 sem e-mail; cookie adulterado ou vencido → 401 e limpa o cookie', async () => {
   let r = await eu(ctx(get('/skills/api/membros/eu')));
-  assert.equal(r.status, 401); assert.match(r.headers.get('set-cookie'), /Max-Age=0/);
+  assert.equal(r.status, 200); assert.equal((await r.json()).email, null);
   const c = await logar();
   r = await eu(ctx(get('/skills/api/membros/eu', c.replace(/.$/, (x) => (x === 'A' ? 'B' : 'A')))));
-  assert.equal(r.status, 401);
+  assert.equal(r.status, 401); assert.match(r.headers.get('set-cookie'), /Max-Age=0/);
   const forjado = `faisca_sessao=${await criarSessao(EMAIL, 'outro-segredo')}`;
   assert.equal((await eu(ctx(get('/skills/api/membros/eu', forjado)))).status, 401);
   await comRelogio(31 * 24 * 3600 * 1000, async () => {

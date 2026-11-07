@@ -177,3 +177,11 @@ body::before { background: url("assets/fundo-quente.webp") center / cover no-rep
 .erro[hidden] { display: none; }
 .jb-enviar, .jb-de-novo { width: 100%; }
 .janela code { overflow-wrap: anywhere; }
+
+/* espaço entre a oferta do painel e a grade de categorias (estavam coladas) */
+.cartao-oferta + .cats, .cartao-oferta + .cartoes { margin-top: .75rem; }
+@media (min-width: 40rem) { .cartao-oferta + .cats, .cartao-oferta + .cartoes { margin-top: 1rem; } }
+@media (min-width: 64rem) { .cartao-oferta + .cats, .cartao-oferta + .cartoes { margin-top: 1.25rem; } }
+.cats { margin-top: .75rem; }
+
+.botao { font-family: inherit; cursor: pointer; }
