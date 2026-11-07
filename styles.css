@@ -245,7 +245,6 @@ body {
 }
 .link--com .link__bg { object-position: 50% 44%; filter: brightness(.72); }
 .link--visionx .link__bg { object-position: 50% 50%; filter: brightness(.66); }
-.link--livro .link__bg { object-position: 50% 24%; }
 
 .link__content { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .link__content small { font-size: 13px; color: var(--muted); }
@@ -289,4 +288,42 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+}
+
+/* ---------- Computador (1024px+): foto fixa de um lado, o conteúdo do outro ----------
+   Celular e tablet seguem exatamente como antes (cartão central de 576px). */
+@media (min-width: 64rem) {
+  html { background: #000; }
+  .page-bg, .topbar { display: none; }
+
+  /* a foto ocupa a metade esquerda da janela, inteira e parada enquanto o lado direito rola */
+  .hero { position: static; aspect-ratio: auto; }
+  .hero__img { position: fixed; left: 0; top: 0; width: 50vw; height: 100vh; height: 100svh; z-index: 0; object-position: 50% 24%; }
+  .hero__fade { position: fixed; left: 0; top: 0; width: 50vw; height: 100vh; height: 100svh; z-index: 0;
+    background: linear-gradient(90deg, transparent 62%, #000 100%), linear-gradient(0deg, rgba(0, 0, 0, .45) 0%, transparent 28%); }
+
+  .card { width: 50vw; max-width: none; margin: 0 0 0 50vw; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(1.25rem, 3.5vh, 3.5rem); }
+  .hero__content, .body { width: min(100% - 4rem, 34rem); margin-inline: auto; }
+  .hero__content { position: static; padding: 0; text-align: left; }
+  .name { justify-content: flex-start; font-size: 44px; line-height: 52px; gap: 8px; }
+  .badge { width: 26px; height: 26px; }
+  .handle { font-size: 16px; margin-top: 4px; }
+  .body { padding: 0; }
+  .socials { justify-content: flex-start; margin: 20px 0 16px; gap: 20px; }
+  .socials__btn { width: 44px; height: 44px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 50%; }
+  .bio { text-align: left; font-size: 16px; margin: 0 0 22px; color: rgba(255, 255, 255, .88); }
+  .links { gap: 12px; }
+  .link { min-height: 96px; }
+  .footer { align-items: flex-start; margin-top: 22px; }
+}
+@media (min-width: 64rem) and (max-height: 760px) {
+  .name { font-size: 38px; line-height: 44px; }
+  .link { min-height: 84px; padding-block: 12px; }
+  .socials { margin: 14px 0 12px; }
+  .bio { margin-bottom: 16px; }
+  .footer { margin-top: 20px; }
+}
+@media (min-width: 64rem) and (max-width: 79.99rem) {
+  .name { font-size: 34px; line-height: 40px; gap: 6px; }
+  .badge { width: 22px; height: 22px; }
 }
