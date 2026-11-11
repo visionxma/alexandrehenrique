@@ -94,7 +94,7 @@
           body: JSON.stringify({ nome, telefone: soDigitos(tel), skill, desafio, solucao, aceito: true, hp: form.site.value }) });
         const j = await r.json().catch(() => ({}));
         if (!r.ok || !j.ok) { mostraErro(j.erro || 'Não foi possível liberar agora. Tente de novo em instantes.'); preparaDesafio(); enviar.disabled = false; enviar.lastChild.textContent = 'Baixar agora'; return; }
-        janela.querySelector('.jb-de-novo').href = j.url; etapa('ok');
+        janela.querySelector('.jb-de-novo').href = j.url; etapa('ok'); try { if (window.fbq) fbq('track', 'Lead'); } catch (_) { /* pixel bloqueado: segue */ }
         const a = document.createElement('a'); a.href = j.url; a.download = ''; document.body.appendChild(a); a.click(); a.remove();
       } catch (_) { mostraErro('Sem conexão. Verifique a internet e tente de novo.'); enviar.disabled = false; enviar.lastChild.textContent = 'Baixar agora'; }
     });
@@ -116,6 +116,6 @@
     if (!a) return;
     if (a.matches('[data-baixar]')) avisa('abre_baixar');
     else if (a.matches('a[href="#painel"]')) avisa('clique_painel');
-    else if (a.matches('a[href*="nuvpag.com"]')) avisa('clique_comprar');
+    else if (a.matches('a[href*="nuvpag.com"]')) { avisa('clique_comprar'); try { if (window.fbq) fbq('track', 'InitiateCheckout', { value: 19.9, currency: 'BRL' }); } catch (_) { /* pixel bloqueado: segue */ } }
   }, true);
 })();
