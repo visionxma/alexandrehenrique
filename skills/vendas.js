@@ -119,3 +119,17 @@
     else if (a.matches('a[href*="nuvpag.com"]')) { avisa('clique_comprar'); try { if (window.fbq) fbq('track', 'InitiateCheckout', { value: 19.9, currency: 'BRL' }); } catch (_) { /* pixel bloqueado: segue */ } }
   }, true);
 })();
+
+/* Atribuição: leva as UTMs e o fbclid do anúncio até o checkout (a NuvPag manda a venda para a UTMify com elas). */
+(() => {
+  try {
+    const q = new URLSearchParams(location.search), levar = new URLSearchParams();
+    for (const [k, v] of q) if (/^utm_/.test(k) || k === 'fbclid' || k === 'src' || k === 'sck') levar.set(k, v);
+    if (![...levar].length) return;
+    document.querySelectorAll('a[href*="nuvpag.com"]').forEach((a) => {
+      const u = new URL(a.href);
+      levar.forEach((v, k) => { if (!u.searchParams.has(k)) u.searchParams.set(k, v); });
+      a.href = u.toString();
+    });
+  } catch { /* sem URL: segue sem UTMs */ }
+})();
